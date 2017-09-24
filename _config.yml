@@ -4,7 +4,7 @@ decription: 'It`s a Jaehyun Lee`s blog to share knowledge about hpc system'
 author: 
 name: 'Jayhyun Lee' 
 url: http://xjayleex.github.io
-highlighter: pygments
+highlighter: rouge
 permalink: /:title
 
 # Custom options:
