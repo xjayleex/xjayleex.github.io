@@ -54,7 +54,6 @@ title: Home
 
 
 <section class="archive">
-<div class="fadeInDown animated" style="border-top:1px solid #333"></div>
 {% for post in site.posts limit:5 %}
   <div class="archive-item fadeInDown animated">
       <strong>{{ forloop.index }}</strong>
@@ -68,7 +67,7 @@ title: Home
   </article>
     </div></div>
 {% endfor %} 
-<div class="fadeInDown animated" style="border-top:1px solid #333"></div>
+<div class="archive-item fadeInDown animated"></div>
 </section>
 
 
