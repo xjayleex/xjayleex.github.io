@@ -2,7 +2,8 @@
 layout: default
 title: Home
 ---
-<--<section class="archive">
+<!--
+<section class="archive">
 {% for post in site.posts %}
 {% unless post.next %}
 
@@ -57,7 +58,7 @@ title: Home
 
   <div class="archive-item fadeInDown animated">
       <strong>{{ forloop.index }}</strong>
-    <div>
+    <div style="margin-left:20px;">
 
   <article>
     <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
@@ -65,7 +66,7 @@ title: Home
       <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %B" }}</time>
     </div>
   </article>
-
+    </div>
 {% endfor %} 
 
 
