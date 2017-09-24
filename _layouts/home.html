@@ -51,8 +51,10 @@ title: Home
 
 
 <section class="archive">
-<div>
 {% for post in site.posts limits:5 %}
+{% if forloop.first %}
+<div>
+{% endif %}
 <div class="archive-item fadeInDown animated">
   <article>
     <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
@@ -61,8 +63,10 @@ title: Home
     </div>
   </article>
 </div>
-{% endfor %}
+{% if forloop.last %}
 </div>
+{% endif %}
+{% endfor %}
 </section>
 
 
