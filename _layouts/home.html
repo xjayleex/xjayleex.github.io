@@ -2,7 +2,7 @@
 layout: default
 title: Home
 ---
-
+<!--
 <section class="archive">
 {% for post in site.posts %}
 {% unless post.next %}
@@ -48,9 +48,52 @@ title: Home
   {% endif %}
 
 {% endfor %}
+-->
+
+
+<section class="archive">
+{% for post in site.posts limits:5 %}
+{% unless post.next %}
+
+
+  <div class="archive-item fadeInDown animated">
+    <h2>{{ post.date | date: '%Y' }}</h2>
+    <div>
+
+{% else %}
 
 
 
+  {% unless forloop.first %}
+    </div>
+  </div>
+  {% endunless %}
+
+  <div class="archive-item fadeInDown animated">
+    <h2>{{ post.date | date: '%Y' }}</h2>
+    <div>
+
+{% endif %}
+{% endunless %}
+
+  <article>
+    <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
+    <div class="post-date">
+      <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %B" }}</time>
+    </div>
+  </article>
+
+  {% if forloop.last %}
+    </div>
+  </div>
+  {% endif %}
+
+{% endfor %}
+
+
+
+
+<!--
 <h1 class="pageTitle">Recent Posts</h1>
   <ul class="posts noList">
     {% for post in paginator.posts %}
@@ -62,4 +105,4 @@ title: Home
     {% endfor %}
   </ul>
 
-</section>
+</section> -->
