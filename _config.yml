@@ -1,12 +1,11 @@
-title: Brume
-author: Aigars Dzerviniks
-description: It's simple. It's easy to use. It's a Jekyll theme.
-
-highlighter: null
+title: Es muss sein!
+tagline: 'Learning Bigdata'
+decription: 'It`s a Jaehyun Lee`s blog to share knowledge about hpc system' 
+author: 
+name: 'Jayhyun Lee' 
+url: http://xjayleex.github.io
+highlighter: pygments
 permalink: /:title
-
-url:
-baseurl:
 
 # Custom options:
 # color_scheme: azul|ruby|amber|avocado
