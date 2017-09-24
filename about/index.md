@@ -2,7 +2,7 @@
 layout: page
 title: About
 ---
-![Image](/assets/images/aboutme.png){: .center-image } 
+![Image](/assets/images/aboutme.png){: width = "158px" height = "300px" style="margin: 0 auto; display: block;"} 
 
 My name is Jaehyun Lee. I am a grad student at Korea Aerospace Univ. and working at Bigdata & Distributed Computing Lab.
 
