@@ -2,9 +2,9 @@
 layout: page
 title: About
 ---
-![Image](/assets/images/aboutme.png){: width="158px" height="300px"} 
+![Image](/assets/images/aboutme.png){: .center-image } 
 
-My name is Jaehyun Lee (Korean : 이재현). I am a grad student at Korea Aerospace Univ. and working at Bigdata & Distributed Computing Lab.
+My name is Jaehyun Lee. I am a grad student at Korea Aerospace Univ. and working at Bigdata & Distributed Computing Lab.
 
 ---
 
@@ -13,3 +13,12 @@ I am interested in the high-performance computing systems for bigdata analysis a
 - <strong> Distributed Computing Frameworks (e.g. Apache Hadoop, Apache Spark) </strong>
 - <strong> Parallel and Distributed File Systems (e.g. Lustre, Gluster FS, HDFS) </strong>
 - <strong> I/O environment for High Performance Computing (e.g. Burst Buffer) </strong>
+
+
+.center-image{
+    width: 158px;
+    height: 300px;
+    margin: 0 auto;
+    display: block;
+
+}
