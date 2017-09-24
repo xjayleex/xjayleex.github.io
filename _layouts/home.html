@@ -51,8 +51,8 @@ title: Home
 
 
 <section class="archive">
-{% for post in site.posts limits:5 %}
 <div>
+{% for post in site.posts limits:5 %}
 <div class="archive-item fadeInDown animated">
   <article>
     <a href="{{ post.url | absolute_url }}" title="{{ post.title }}">{{ post.title }}</a>
