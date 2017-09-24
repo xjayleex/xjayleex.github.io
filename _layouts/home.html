@@ -53,7 +53,7 @@ title: Home
 <section class="archive">
 {% for post in site.posts limits:5 %}
 {% if forloop.first %}
-<div>
+<div></div>
 {% endif %}
 <div class="archive-item fadeInDown animated">
   <article>
@@ -64,7 +64,7 @@ title: Home
   </article>
 </div>
 {% if forloop.last %}
-</div>
+<div></div>
 {% endif %}
 {% endfor %}
 </section>
