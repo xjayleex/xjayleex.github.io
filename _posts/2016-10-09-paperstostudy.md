@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Papers to study.
+title: The papers to study.
 ---
 |                                    Title                                    | Check |
 |:---------------------------------------------------------------------------:|:-----:|
