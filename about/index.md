@@ -23,9 +23,11 @@ I am interested in the high-performance computing systems for bigdata analysis a
 ---
 
 ### Awards ###
-- Gyeonggi-do Bigdata Expert Training Education Excellent Project Award, 2017
+- Award for Gyeonggi-do Bigdata Expert Training Education Excellent Projects, 2017
 
 ---
 
 ### Programming Skills ###
+![Image](/assets/images/skill.png){:style=" width: 600px; margin: 0 auto; display: block;"} 
+
 
