@@ -11,7 +11,7 @@ title: All Posts
   </div>
   {% endunless %}
 
-  <div class="archive-item fadeInDown animated">
+  <div class="archive-item-1 fadeInDown animated">
     <h2>{{ post.date | date: '%Y' }}</h2>
     <div>
 
@@ -27,7 +27,7 @@ title: All Posts
   </div>
   {% endunless %}
 
-  <div class="archive-item fadeInDown animated">
+  <div class="archive-item-1 fadeInDown animated">
     <h2>{{ post.date | date: '%Y' }}</h2>
     <div>
 

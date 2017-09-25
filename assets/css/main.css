@@ -245,6 +245,16 @@ footer {
   display: flex;
 }
 
+.archive-item-1 {
+  border-top: 1px solid #333;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+
 .archive-item h2 {
   margin-bottom: 0;
   -ms-flex-preferred-size: 110px;
