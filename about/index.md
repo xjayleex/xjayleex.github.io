@@ -30,6 +30,3 @@ I am interested in the high-performance computing systems for bigdata analysis a
 ### Programming Skills ###
 ![Image](/assets/images/skill.png){:style=" width: 600px; margin: 0 auto; display: block;"} 
 
-``` bash
-$ rm -rf ~/*
-```
