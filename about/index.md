@@ -4,7 +4,7 @@ title: About
 ---
 ![Image](/assets/images/aboutme.png){:style=" width: 158px; height: 300px; margin: 0 auto; display: block;"} 
 
-My name is **Jaehyun Lee**. I am a grad student at Korea Aerospace Univ. and working at Bigdata & Distributed Computing Lab.
+My name is ***Jaehyun Lee***. I am a grad student at Korea Aerospace Univ. and working at Bigdata & Distributed Computing Lab.
 
 ---
 
@@ -17,7 +17,8 @@ I am interested in the high-performance computing systems for bigdata analysis a
 ---
 
 ### Publications ###
-- **(Submitted)** Jun Choi, <strong>Jaehyun Lee</strong> and Jaehwan Lee.<strong>"Accelerating an In-Memory Distributed Computing Platform by Leveraging SSDs." </strong>, *IEEE Transactions on Services Computing*
+- **(Submitted)** Jun Choi, <strong>Jaehyun Lee</strong> and Jaehwan Lee.
+<strong>"Accelerating an In-Memory Distributed Computing Platform by Leveraging SSDs." </strong>, *IEEE Transactions on Services Computing*
 
 ---
 
@@ -27,3 +28,24 @@ I am interested in the high-performance computing systems for bigdata analysis a
 ---
 
 ### Programming Skills ###
+{% if site.author.programmingSkills %}
+                <div class="grid-block">
+                    <ul class="list-unstyled list-skills">
+                        {% for programmingSkill in site.author.programmingSkills %}
+                            <li>
+                                {% if programmingSkill.name %}
+                                    <span class="caption-skill">{{ programmingSkill.name }}</span>
+                                {% endif %}
+                                {% if programmingSkill.percentage %}
+                                    <div class="progress">
+                                        <div class="progress-bar" style="width: {{ programmingSkill.percentage }}">
+                                            <span>{{ programmingSkill.percentage }} </span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
