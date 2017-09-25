@@ -3,24 +3,8 @@ title: Es muss sein!
 tagline: 'Learning Bigdata'
 decription: 'It`s a Jaehyun Lee`s blog to share knowledge about hpc system' 
 author: 
-  name: 'Jayhyun Lee'
-  programmingSkills:
-    - skill1:
-      name: HTML
-      percentage: 100%
-    - skill2:
-      name: Bootstrap
-      percentage: 90%
-    - skill3:
-      name: JavaScript
-      percentage: 70%
-    - skill4:
-      name: AngularJS
-      percentage: 70%
-    - skill5:
-      name: Java/Java EE
-      percentage: 90%
-  url: http://xjayleex.github.io
+name: 'Jayhyun Lee'
+url: http://xjayleex.github.io
 highlighter: rouge
 permalink: /:title
 
