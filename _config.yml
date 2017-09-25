@@ -3,7 +3,7 @@ title: Es muss sein!
 tagline: 'Learning Bigdata'
 decription: 'It`s a Jaehyun Lee`s blog to share knowledge about hpc system' 
 author: 
-    name: 'Jayhyun Lee'
+  name: 'Jayhyun Lee'
   programmingSkills:
     - skill1:
       name: HTML
@@ -20,7 +20,7 @@ author:
     - skill5:
       name: Java/Java EE
       percentage: 90%
-url: http://xjayleex.github.io
+  url: http://xjayleex.github.io
 highlighter: rouge
 permalink: /:title
 
