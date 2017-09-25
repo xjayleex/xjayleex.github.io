@@ -17,7 +17,7 @@ I am interested in the high-performance computing systems for bigdata analysis a
 ---
 
 ### Publications ###
-- **(Submitted)** Jun Choi, <strong>Jaehyun Lee</strong> and Jaehwan Lee.
+- **(Submitted)** Jun Choi, <strong>Jaehyun Lee</strong> and Jaehwan Lee.  
 <strong>"Accelerating an In-Memory Distributed Computing Platform by Leveraging SSDs." </strong>, *IEEE Transactions on Services Computing*
 
 ---
