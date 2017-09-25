@@ -2,11 +2,11 @@
 layout: default
 title: Home
 ---
-<div id="social">
+<section class="archive">
+ <div>
     {% include social.html %}
 </div>
-<section class="archive">
-    <div class="fadeInDown animated"><h2>Recent Posts</h2></div>
+   <div class="fadeInDown animated"><h2>Recent Posts</h2></div>
 <div class="fadeInDown animated" style="border-top: 1px solid #333"></div>
 {% for post in site.posts limit:5 %}
   <div class="archive-item fadeInDown animated">
