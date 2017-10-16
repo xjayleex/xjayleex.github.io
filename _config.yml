@@ -7,7 +7,7 @@ name: 'Jayhyun Lee'
 url: http://xjayleex.github.io
 highlighter: rouge
 permalink: /:title
-
+#
 # Custom options:
 # color_scheme: azul|ruby|amber|avocado
 # color_scheme: avocado
