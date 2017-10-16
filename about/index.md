@@ -23,6 +23,11 @@ I am interested in the high-performance computing systems for bigdata analysis a
 
 ---
 
+### Patents ###
+- **(Pending)**
+
+---
+
 ### Awards ###
 - Award for Gyeonggi-do Bigdata Expert Training Education Excellent Projects, 2017
 
