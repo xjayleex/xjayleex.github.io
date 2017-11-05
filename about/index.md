@@ -24,7 +24,7 @@ I am interested in the high-performance computing systems for bigdata analysis a
 ---
 
 ### Patents ###
-- **(Pending)**
+- **(Pending)** <strong>"Optimal heartbeat period detection algorithm in Hadoop system.", Jaewhan Lee and <strong>Jaehyun Lee</strong>
 
 ---
 
