@@ -9,22 +9,23 @@ My name is ***Jaehyun Lee***. I am a graduate student at Korea Aerospace Univ. a
 ---
 
 ### Research Interests ###
-I am interested in the high-performance computing systems for bigdata analysis and deep-learning. For example... 
-- <strong> Distributed Computing Frameworks (e.g. Apache Hadoop and Spark) </strong>
-- <strong> Parallel and Distributed File Systems (e.g. Lustre, Gluster FS, HDFS) </strong>
+Interested in the high-performance computing systems for bigdata analysis and deep-learning. For example... 
 - <strong> Software Stack for High Performance Computing (e.g. Burst Buffer) </strong>
-- <strong> Linux Kernel & Posix API </strong>
+- <strong> Multi-streamed NVM Device </strong>
+- <strong> Parallel and Distributed File Systems (e.g. BeeGFS, Lustre, Gluster FS, HDFS) </strong>
+- <strong> Distributed Computing Frameworks (e.g. Apache Hadoop and Spark) </strong>
+- <strong> Linux Kernel</strong>
 
 ---
 
 ### Publications ###
-- **(Submitted)** Jun Choi, <strong>Jaehyun Lee</strong> and Jaehwan Lee.  
+- **(Revision)** Jun Choi, <strong>Jaehyun Lee</strong> and Jaehwan Lee.  
 <strong>"Accelerating an In-Memory Distributed Computing Platform by Leveraging SSDs." </strong>, *IEEE Transactions on Services Computing*
 
 ---
 
 ### Patents ###
-- **(Pending)** <strong>"Optimal heartbeat period detection algorithm in Hadoop system.", Jaewhan Lee and <strong>Jaehyun Lee</strong>
+- <strong>"Optimal heartbeat period detection algorithm in Hadoop system.", Jaewhan Lee and <strong>Jaehyun Lee</strong>
 
 ---
 
