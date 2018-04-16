@@ -11,6 +11,6 @@ print("First str : " + a)
 print("Second str : " + b)
 {% endhighlight %}
 
-> -** 실행결과**
+> - **실행결과**
 ![Image](/assets/images/python_multi.png){:style=" width: 800px; margin: 0 auto; display: block;"}
 
