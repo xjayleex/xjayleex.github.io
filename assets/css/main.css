@@ -60,6 +60,7 @@ hr {
 code {
   font-family: Consolas, "Liberation Mono", Courier, monospace;
   font-size: .8rem;
+  white-space: pre;
 }
 
 p code {
@@ -334,7 +335,7 @@ footer {
 }
 
 .highlight code {
-  font-size: .17rem;
+  font-size: .7rem;
 }
 
 /*
