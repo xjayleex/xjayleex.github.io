@@ -326,20 +326,18 @@ footer {
   Code highlighting
 ================================================================================
 */
-.highlight {
+.highlight pre {
   padding: 30px;
   border-radius: 6px;
   background-color: #272822;
   color: #f8f8f2;
-  white-space: pre;
+  word-wrap: normal;
   line-height: 1;
-  overflow: auto;
 }
 
 .highlight code {
   font-size: .8rem;
   white-space: pre;
-  overflow: auto;
 }
 
 /*
