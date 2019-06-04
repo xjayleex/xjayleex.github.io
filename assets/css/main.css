@@ -333,6 +333,7 @@ footer {
   color: #f8f8f2;
   word-wrap: normal;
   line-height: 1;
+  display: inline-block;
 }
 
 .highlight pre code {
