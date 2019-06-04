@@ -335,7 +335,7 @@ footer {
   line-height: 1;
 }
 
-.highlight code {
+.highlight pre code {
   font-size: .8rem;
   white-space: pre;
 }
