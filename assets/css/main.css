@@ -335,7 +335,8 @@ footer {
 }
 
 .highlight code {
-  font-size: .11rem;
+  font-size: .7rem;
+  overflow: scroll;
 }
 
 /*
