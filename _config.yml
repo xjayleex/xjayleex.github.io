@@ -7,7 +7,7 @@ github_username:  xjayleex
 googleplus_username: 
 
 head-title: Jaylog :: Thought -> [String]
-title: Jayloh :: Thought -> [String]
+title: Jaylog :: Thought -> [String]
 
 url: http://xjayleex.github.io
 
@@ -50,11 +50,11 @@ gems: [jekyll-paginate, jekyll-last-modified-at, jemoji]
 
 # Color
 # All css class, see: http://materializecss.com/color.html
-header-color: "teal lighten-1"
+header-color: "indigo lighten-1"
 head-theme-color: "#5c6bc0"     # MUST in hex format, may the same as header-color. This color is for android chrome browser.
 
-footer-color: "teal lighten-1"
-footer-button-color: "teal lighten-2"
+footer-color: "indigo lighten-1"
+footer-button-color: "indigo lighten-2"
 footer-link-color: "red-text text-accent-1"
 
 share-button-color: "pink"
