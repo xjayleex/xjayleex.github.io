@@ -4,13 +4,13 @@ title: About
 permalink: /about/
 ---
 
-#### Tagline
+#### Publications
 
-Your tagline.
 
-#### Introduction
 
-Introduce yourself.
+#### Patent
+<b>APPARATUS AND METHOD FOR MANAGING OF HEARTBEAT EXCHANGE PERIOD IN THE HADOOP DISTRIBUTED FILE SYSTEM",</b>Jaehwan Lee,<b>Jaehyun Lee, 2019.04,</b> [Available at here](https://patents.google.com/patent/KR101973537B1/ko)
+
 
 #### This theme
 
