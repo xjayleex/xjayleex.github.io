@@ -18,8 +18,7 @@ favo: ""
 descrpt: "" 
 
 disqus:
-	shortname: xjayleex
-#
+  shortname: xjayleex
 # Build settings
 #
 
