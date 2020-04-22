@@ -17,7 +17,8 @@ description: "분산컴퓨팅, 데이터 플랫폼에 관심 많은 개발자입
 favo: ""
 descrpt: "" 
 
-
+disqus:
+	shortname: xjayleex
 #
 # Build settings
 #

@@ -1,5 +1,6 @@
 ---
 layout: post
+comment: true
 title: Kafka Retention Policy
 date: 2017-12-22
 category: "Kafka"
