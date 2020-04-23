@@ -20,7 +20,9 @@ author: Jaehyun Lee
 
 - 프로세스와 그에 따른 환경을 격리해 오버헤드가 적음.
 
-####Docker Networking
+  
+
+#### Docker Networking
 
 ---
 
@@ -50,7 +52,7 @@ author: Jaehyun Lee
 
 - 다수 호스트 Container 간 통신은 어떻게 할까 ?
 
-  - [Overlay Network add-on] 도입 필요(OVS, flannel, Calico, weave, etc)
+  - Overlay Network add-on 도입 필요(OVS, flannel, Calico, weave, etc)
   - 이러한 컨셉을 K8S가 지원
 
   - Network Overlay add-on  별 특징이 있으므로, 상황에 맞는 적합한 add-on 선택 필요
@@ -59,10 +61,41 @@ author: Jaehyun Lee
 
   - Container expose : -p / -P
 
-  {% highlight bash %}
+  {% highlight bash %} $ docker run -d -p 8080:80 --name test nginx {% endhighlight %}
 
-  docker run -d -p 8080:80 --name test nginx
+  - Kubernetes의 경우는 Service 오브젝트를 통해서 외부에 Container 오픈 : Load Balancer, NodePort 
+  - Docker 호스트의 iptables를 이용한 DNAT / SNAT 을 통해서 외부와 통신
 
-  {% endhighlight %}
+#### Kubernetes ?
 
-  
+---
+
+- Multi 호스트에 배포된 컨테이너들을 자동으로 관리할 수 있도록하는 매니지먼트 툴
+
+- Master - Work (1:N or N:N)
+
+- Kubernetes Master
+
+  - Kubernetes Cluster에서 컨테이너의 관리 및 배포를 관리하는 액세스 제어 플레인.
+  - 클러스터 복제패턴에 따라 마스터 수는 1개 이상임.
+
+- API Server
+
+  - Kubernetes API를 노출하는 컴포넌트로, Kubernetes 오브젝트 관리/제어를 위한 Frontend
+
+- Scheduler
+
+  - Node가 배정되지 않은 새로 생성된 Pods를 감지하고 그것이 구동될 Node를 선택함
+
+- Controller-Manager : 4개의 컨트롤러는 논리적으로는 개별 프로세스이지만 복잡성을 낮추기 위해 단일 바이너리로 컴파일
+
+  Node Controller : 노드가 다운되었을 때 통지와 대응
+
+  Replication Controller : 모든 Replication Controller Object에 대해 알맞는 수의 Pods를 유지
+
+  Service Controller : 새로운 네임스페이스에 대한 기본 계정과 API 접근 토큰 생성
+
+- etcd
+
+  모든 클러스터 데이터를 담는 Key-value 저장소, Replicaset, Controller, Scheduler, Kubelet 등은 etcd에 접근하기 위해 API Server를 통해 접근.
+
