@@ -1,6 +1,6 @@
 ---
 layout: post
-comment: true
+comment: false
 title: Kubernetes란 무엇인가 (NCP 리뷰)
 date: 2019-11-12
 category: "Kubernetes"
@@ -44,10 +44,25 @@ author: Jaehyun Lee
   - 이 컨셉도 동일 호스트, 동일 brdige 내 Container 간에서만 사용 가능하다는 한계.
 
 - East - West Communication : **Custom network**
+
   - 동일 Network 바인드 Container 간 사설 통신 가능
   - 동일 호스트, 다른 Network 바인드 Container 간 통신 불가
+
 - 다수 호스트 Container 간 통신은 어떻게 할까 ?
+
   - [Overlay Network add-on] 도입 필요(OVS, flannel, Calico, weave, etc)
   - 이러한 컨셉을 K8S가 지원
-- East - West Communication : **Custom network**
+
   - Network Overlay add-on  별 특징이 있으므로, 상황에 맞는 적합한 add-on 선택 필요
+
+- South - North Communication
+
+  - Container expose : -p / -P
+
+  {% highlight bash %}
+
+  docker run -d -p 8080:80 --name test nginx
+
+  {% endhighlight %}
+
+  
