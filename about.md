@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 ![Image](/assets/images/aboutme.png){:style=" width: 158p    x; height: 158px; margin: 0 auto; display: block;"}
+#### Experience
+<b>2019.7~8. Naver Business Platform, System Engineer Intern</b>
 
 #### Interests
 `Distributed Computing Frameworks (Hadoop, Spark)`  
