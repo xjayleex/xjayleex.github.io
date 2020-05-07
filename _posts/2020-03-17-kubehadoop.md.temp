@@ -3,8 +3,8 @@ layout: post
 comment: false
 title: Kubernetes Cluster에 HDFS 설치
 date: 2020-03-17
-category: "Kubernetes"
-tags: [Kubernetes]
+category: "Kubernetes", "Hadoop"
+tags: [Kubernetes, Hadoop]
 author: Jaehyun Lee
 ---
 
