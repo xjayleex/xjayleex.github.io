@@ -14,7 +14,8 @@ author: Jaehyun Lee
 
 - Master와 Worker에 
 
-  {% highlight bash %} $ kubectl expose service master-svc --port=[namenode.http.address] --external-ip [node-ip] --name=hdfs-webapp {% endhighlight %}
+  {% highlight bash %} $ kubectl expose service master-svc \ 
+  --port=[namenode.http.address] --external-ip [node-ip] --name=hdfs-webapp {% endhighlight %}
 
 ##### Kubernetes Reset Scripts
 ##### Change NIC Using in Kubernetes & Flannel 
