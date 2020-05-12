@@ -22,7 +22,7 @@ author: Jaehyun Lee
 ---
 
 {% highlight bash %}
-\# sudo vim /etc/systemd/system/zookeeper-server.service
+# sudo vim /etc/systemd/system/zookeeper-server.service
 {% endhighlight %}
 {% highlight bash %}
 [Unit]
@@ -37,7 +37,7 @@ Group=jay
 SyslogIdentifier=zookeeper-server
 WorkingDirectory=/
 TimeoutStartSec=10min
-PIDFILE="/data/ssd/zookeeper\_data/kafka\_data/zookeeper\_server.pid"
+PIDFILE="/data/ssd/zookeeper_data/kafka_data/zookeeper_server.pid"
 ExecStart=/data/hdd/softwares/zookeeper/bin/zkServer.sh start
 ExecStop=/data/hdd/softwares/zookeeper/bin/zkServer.sh stop
 
