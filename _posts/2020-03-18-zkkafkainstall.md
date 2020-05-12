@@ -1,7 +1,7 @@
 ---
 layout: post
 comment: false
-title: Zookeeper, Kafka 설치 & systemd Service 등롣
+title: Zookeeper, Kafka 설치 & systemd Service 등록
 date: 2020-03-18
 category: "Kafka"
 tags: [Kafka]
@@ -18,11 +18,12 @@ author: Jaehyun Lee
 
 #### Kafka 설치
 
-#### Change NIC Using in Kubernetes & Flannel 
+#### Zookeeper & Kafka systemd Service로 등록하기 
 ---
+Zookeeper와 Kafka의 호스트 머신이 재시작되었을 때를 대비해, systemdService로 등록해줍니다.
 
 {% highlight bash %}
-# sudo vim /etc/systemd/system/zookeeper-server.service
+$ vim /etc/systemd/system/zookeeper-server.service
 {% endhighlight %}
 {% highlight bash %}
 [Unit]
@@ -45,3 +46,25 @@ ExecStop=/data/hdd/softwares/zookeeper/bin/zkServer.sh stop
 WantedBy=multi-user.target
 {% endhighlight %}
 
+{% highlight bash %}
+$ vim /etc/systemd/system/kafka-server.service
+{% endhighlight %}
+{% highlight bash %}
+[Unit]
+Description=kafka-server
+After=network.target
+RequiresMountsFor=/data/hdd
+
+[Service]
+Type=forking
+User=jay
+Group=jay
+SyslogIdentifier=kafka-server
+WorkingDirectory=/
+TimeoutStartSec=10min
+ExecStart=/data/hdd/softwares/kafka_2.12-2.5.0/bin/kafka-server-start.sh -daemon /data/hdd/softwares/kafka_2.12-2.5.0/config/server.properties
+ExecStop=/data/hdd/softwares/kafka_2.12-2.5.0/bin/kafka-server-stop.sh
+
+[Install]
+WantedBy=multi-user.target
+{% endhighlight %}
