@@ -79,7 +79,10 @@ figcaption {
 }
 
 table {
-    background-color: #e8e8e9;
+    background-color: #ffffff;
+	border-collapse: collapse;
+    border-spacing: 0;
+	border:2px solid #e8e8e9;
 }
 
 /* Lists */
