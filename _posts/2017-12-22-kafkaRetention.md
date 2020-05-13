@@ -8,7 +8,7 @@ tags: [Kafka, Retention Policy]
 author: Jaehyun Lee
 ---
 
-|         NAME         | DESCRIPTION                                                  | default |  property         |
+|         NAME         |                   DESCRIPTION                                | default |          property         |
 | :------------------: | ------------------------------------------------------------ | ------- | ------------------------------- |
 |    cleanup.policy    | "delete" or "compact".  delete는 retention size나 time 도달 시 오래된 세그먼트 버림.  compact는 토픽에 대한 log compaction 세팅 활성화시킴 |         | log.cleanup.policy              |
 | delete.retention.ms  | 압축된 토픽에 대한 retention time                            | 24h     | log.cleaner.delete.retention.ms |
