@@ -8,7 +8,7 @@ tags: [zookeeper]
 author: Jaehyun Lee
 ---
 
-#### Slice
+#### What is Apache Zookeeper
 - Apache Zookeeper는 분산 어플리케키이션을 위해 Naming Registry, 분산 프레임워크 설정과, 동기화를 지원한다. 
 
 ![Image](/assets/images/zookeeperkafka.png){:style=" width: 80%; margin: 0 auto; display: block;"}
