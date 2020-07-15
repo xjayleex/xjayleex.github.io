@@ -64,11 +64,13 @@ author: Jaehyun Lee
 
 ##### - Root Device Storage
 - 모든 AMI는 Amazon EBS나 Instance Store를 루트 디바이스 스토리지로 사용
-EBS Backed
+
+  EBS Backed
 - EBS 볼륨은 EC2 인스턴스의 생명주기로부터 독립적으로 유지된다.
 - EBS backed 인스턴스는 볼륨 삭제없이 중지될 수 있다.
 - EBS 인스턴스는 Delete On Termination 플래그가 활성화되어 있지 않은 이상, 볼륨 데이터를 유지한다. (Default는 True로 설정되어 있음)
 - 인스턴스를 사용하기 전에 스냅샷에서 인스턴스를 부팅하는 데 필요한 부분만 검색하면 되므로 EBS Backed 인스턴스는 Instance Store Backed 인스턴스보다 훨씬 빠르게 부팅된다.
 - AMI 생성에 CreateImage API  단일 명령/호출을 사용해 AMI 생성이 쉽다.
-Instance Store backed
-- 
+
+  Instance Store backed
+- 인스턴스 생명주기에 의존하는 임시 스토리지 
