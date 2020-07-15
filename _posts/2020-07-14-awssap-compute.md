@@ -123,9 +123,10 @@ Linux Amazon 머신 이미지는 PV(반가상화) 또는 HVM(하드웨어 가상
 - 더 이상 필요 없는 AMI는 등록 취소할 수 있다.
 
 ##### **AMI Creation (EBS-Backed Linux AMI)**
-![Image](/assets/images/slice-structure.png){:style=" width: 80%; margin: 0 auto; display: block;"}
+![Image](/assets/images/aws/running-instance.png){:style=" width: 80%; margin: 0 auto; display: block;"}
 
 - EBS-Backed Linux AMI는 EBS 인스턴스에서 직접 혹은 EBS 스냅샷에서 생성할 수 있다.
+
 1. 만들려는 AMI#2와 비슷한 AMI#1에서 인스턴스를 시작한다. 인스턴스에 연결해 인스턴스를 사용자 지정할 수 있다. 
 2. 인스턴스가 올바르게 구성되면 AMI를 생성하기 전에 인스턴스를 중단하여 데이터 무결성을 확인한다.
 3. AMI#2를 생성하거나, EBS 스냅샷을 생성한뒤 스냅샷으로부터 AMI#2를 생성한다.
