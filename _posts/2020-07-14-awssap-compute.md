@@ -76,5 +76,5 @@ author: Jaehyun Lee
 - 인스턴스 생명주기에 의존하는 임시 스토리지로 인스턴스가 종료되거나, Instance Store 볼륨이 연결된 EBS Backed 인스턴스가 중지되면, Instance Store가 삭제됨.
 - Instance Store 볼륨에는 '중지' 없음.
 - 인스턴스가 이용가능한 상태로 만들어지기 전에, S3로 부터 모든 부분들이 끌어져와야되기 때문에 EBS Backed 인스턴스에 비해 부팅 시간이 길다. 
-- Instance Store Backed Linux AMI를 생성하려면 Amazon EC2 AMI 도구를 설치해야 한다.
+- ####Instance Store Backed Linux AMI를 생성하려면 Amazon EC2 AMI 도구를 설치해야 한다.
 
