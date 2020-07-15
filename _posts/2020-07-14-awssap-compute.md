@@ -57,7 +57,7 @@ author: Jaehyun Lee
 ##### - Operating System
 ##### - Computer Architecture
 ##### - Launch Permissions 
-  AMI 소유자는 시작 권한을 지정하여 가용성 결정
+- AMI 소유자는 시작 권한을 지정하여 가용성 결정
 - Public  모든 AWS 계정에 시작 권한 부여
 - Explicit  특정 AWS 계정들에 시작 권한 부여
 - Private/Implicit  Creator Account Only  
@@ -65,12 +65,16 @@ author: Jaehyun Lee
 ##### - Root Device Storage
 - 모든 AMI는 Amazon EBS나 Instance Store를 루트 디바이스 스토리지로 사용
 
-  EBS Backed
+- EBS Backed
 - EBS 볼륨은 EC2 인스턴스의 생명주기로부터 독립적으로 유지된다.
 - EBS backed 인스턴스는 볼륨 삭제없이 중지될 수 있다.
 - EBS 인스턴스는 Delete On Termination 플래그가 활성화되어 있지 않은 이상, 볼륨 데이터를 유지한다. (Default는 True로 설정되어 있음)
 - 인스턴스를 사용하기 전에 스냅샷에서 인스턴스를 부팅하는 데 필요한 부분만 검색하면 되므로 EBS Backed 인스턴스는 Instance Store Backed 인스턴스보다 훨씬 빠르게 부팅된다.
 - AMI 생성에 CreateImage API  단일 명령/호출을 사용해 AMI 생성이 쉽다.
 
-  Instance Store backed
-- 인스턴스 생명주기에 의존하는 임시 스토리지 
+- Instance Store Backed
+- 인스턴스 생명주기에 의존하는 임시 스토리지로 인스턴스가 종료되거나, Instance Store 볼륨이 연결된 EBS Backed 인스턴스가 중지되면, Instance Store가 삭제됨.
+- Instance Store 볼륨에는 '중지' 없음.
+- 인스턴스가 이용가능한 상태로 만들어지기 전에, S3로 부터 모든 부분들이 끌어져와야되기 때문에 EBS Backed 인스턴스에 비해 부팅 시간이 길다. 
+- Instance Store Backed Linux AMI를 생성하려면 Amazon EC2 AMI 도구를 설치해야 한다.
+
