@@ -8,7 +8,8 @@ tags: [AWS]
 author: Jaehyun Lee
 ---
 ### Understand EC2
----
+
+
 
 #### **EC2 Feature**
 ---
@@ -26,13 +27,13 @@ author: Jaehyun Lee
 #### **Accessing EC2**
 ---
 ##### Amazon EC2 Console
-- Web 기반 사용자 인터페이스
+- Web 기반 사용자 인터페이스  
 ##### AWS CLI
-- Window, Mac, Linux 지원
+- Window, Mac, Linux 지원  
 ##### AWS Query
-- "Action"이라는 쿼리 변수로, GET, POST Request로 HTTP, HTTPS Request 가능
+- "Action"이라는 쿼리 변수로, GET, POST Request로 HTTP, HTTPS Request 가능  
 ##### AWS SDK Libraries
-- HTTP나 HTTPS Request를 직접 보내는 대신, 각 언어가 제공하는 고유의 API를 사용하도록 라이브러리 제공
+- HTTP나 HTTPS Request를 직접 보내는 대신, 각 언어가 제공하는 고유의 API를 사용하도록 라이브러리 제공  
 - 이 라이브러리를 통해서 HTTP/HTTPS Request에 암호화된 사인, Request Retrying, Error Response 핸들링 등의 작업을 자동화할 수 있는 기능 제공
 
 #### **AWS EC2 - AMI**
