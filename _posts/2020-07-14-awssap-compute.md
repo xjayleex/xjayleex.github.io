@@ -11,7 +11,7 @@ author: Jaehyun Lee
 
 
 
-#### **EC2 FeatureTest**
+#### **EC2 Feature**
 ---
 - EC2 Instance  가상 컴퓨팅 환경
 - AMI(Amazon Machine Image)   서버에 필요한 OS와 추가적인 소프트웨어들이 패키지 형태로 구성된 상태로 제공되는 템플릿으로 인스턴스를 쉽게 생성 가능
@@ -83,4 +83,3 @@ author: Jaehyun Lee
 
 - Linux Amazon 머신 이미지는 PV(반가상화) 또는 HVM(하드웨어 가상 머신)의 두 가지 유형 가상화를 사용하는데, 주요 차이점은 부팅 방법과 더 나은 성능을 위해서 특수 하드웨어 확장(CPU, 네트워크, 스토리지)을 활용할 수 있는지 여부에 있다. 최상의 성능을 위해서 AWS는 인스턴스를 시작할 때 현재 세대 인스턴스 유형 및 JVM AMI를 사용하는 것을 권장하고 있다.
 
-- bula bula
