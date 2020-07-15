@@ -56,7 +56,7 @@ author: Jaehyun Lee
 ##### - Region & Availability Zone
 ##### - Operating System
 ##### - Computer Architecture
-##### - 시작 권한(Lauch PErmissions)
+##### - 시작 권한(Lauch Permissions)  
 AMI 소유자는 시작 권한을 지정하여 가용성 결정
 - Public  모든 AWS 계정에 시작 권한 부여
 - Explicit  특정 AWS 계정들에 시작 권한 부여
