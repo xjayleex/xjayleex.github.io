@@ -78,3 +78,9 @@ author: Jaehyun Lee
 - 인스턴스가 이용가능한 상태로 만들어지기 전에, S3로 부터 모든 부분들이 끌어져와야되기 때문에 EBS Backed 인스턴스에 비해 부팅 시간이 길다. 
 - Instance Store Backed Linux AMI를 생성하려면 Amazon EC2 AMI 도구를 설치해야 한다.
 
+#### **Linux Virtualization Types**
+---
+
+- Linux Amazon 머신 이미지는 PV(반가상화) 또는 HVM(하드웨어 가상 머신)의 두 가지 유형 가상화를 사용하는데, 주요 차이점은 부팅 방법과 더 나은 성능을 위해서 특수 하드웨어 확장(CPU, 네트워크, 스토리지)을 활용할 수 있는지 여부에 있다. 최상의 성능을 위해서 AWS는 인스턴스를 시작할 때 현재 세대 인스턴스 유형 및 JVM AMI를 사용하는 것을 권장하고 있다.
+
+
