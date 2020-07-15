@@ -11,7 +11,7 @@ author: Jaehyun Lee
 
 
 
-#### **EC2 Feature**
+#### **EC2 FeatureTest**
 ---
 - EC2 Instance  가상 컴퓨팅 환경
 - AMI(Amazon Machine Image)   서버에 필요한 OS와 추가적인 소프트웨어들이 패키지 형태로 구성된 상태로 제공되는 템플릿으로 인스턴스를 쉽게 생성 가능
