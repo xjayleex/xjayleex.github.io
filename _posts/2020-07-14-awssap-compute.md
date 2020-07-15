@@ -13,16 +13,16 @@ author: Jaehyun Lee
 
 #### **EC2 Feature**
 ---
-- EC2 Instance  가상 컴퓨팅 환경
-- AMI(Amazon Machine Image)   서버에 필요한 OS와 추가적인 소프트웨어들이 패키지 형태로 구성된 상태로 제공되는 템플릿으로 인스턴스를 쉽게 생성 가능
-- Instance Type  여러가지 구성으로 CPU, Memory, Storage, Network 제공
-- Key Pair  AWS는 Public Key를 저장하고 유저는 Private Key를 안전한 장소에 보관하는 방식으로 인스턴스 로그인 정보를 보호
-- EBS(Amazon Elastic Volume)을 이용해 영구적 데이터 저장
-- Region & Availability Zones  인스턴스와 Amazone EBS 볼륨 등의 리소스를 다른 물리적 장소에서 액세스 가능
-- Secure Group을 통해 인스턴스에 연결할 수 있는 프로토콜, 포트, 소스 IP 범위를 지정하는 Firewall 기능
-- EIP(Elastic IP)  동적 클라우드 컴퓨팅을 위한 고정 IPv4 주소
-- Tag  사용자가 생성하여 EC2 리소스에 할당할 수 있는 Metadata
-- VPC(Virtual Priavte Clouds)  AWS 클라우드에서는 논리적으로 격리되어 있지만, 원할 때 마다 사용자 네트워크와 연결할 수 있는 가상 네트워크
+- **EC2 Instance**  :  가상 컴퓨팅 환경
+- **AMI(Amazon Machine Image)**  :  서버에 필요한 OS와 추가적인 소프트웨어들이 패키지 형태로 구성된 상태로 제공되는 템플릿으로 인스턴스를 쉽게 생성 가능
+- **Instance Type**  :  여러가지 구성으로 CPU, Memory, Storage, Network 제공
+- **Key Pair**  :  AWS는 Public Key를 저장하고 유저는 Private Key를 안전한 장소에 보관하는 방식으로 인스턴스 로그인 정보를 보호
+- **EBS(Amazon Elastic Volume)**을 이용해 영구적 데이터 저장
+- **Region & Availability Zones**  :  인스턴스와 Amazone EBS 볼륨 등의 리소스를 다른 물리적 장소에서 액세스 가능
+- **Secure Group**을 통해 인스턴스에 연결할 수 있는 프로토콜, 포트, 소스 IP 범위를 지정하는 Firewall 기능
+- **EIP(Elastic IP)**  :  동적 클라우드 컴퓨팅을 위한 고정 IPv4 주소
+- **Tag**  :  사용자가 생성하여 EC2 리소스에 할당할 수 있는 Metadata
+- **VPC(Virtual Priavte Clouds)**  :  AWS 클라우드에서는 논리적으로 격리되어 있지만, 원할 때 마다 사용자 네트워크와 연결할 수 있는 가상 네트워크
 
 #### **Accessing EC2**
 ---
@@ -81,5 +81,25 @@ author: Jaehyun Lee
 #### **Linux Virtualization Types**
 ---
 
-- Linux Amazon 머신 이미지는 PV(반가상화) 또는 HVM(하드웨어 가상 머신)의 두 가지 유형 가상화를 사용하는데, 주요 차이점은 부팅 방법과 더 나은 성능을 위해서 특수 하드웨어 확장(CPU, 네트워크, 스토리지)을 활용할 수 있는지 여부에 있다. 최상의 성능을 위해서 AWS는 인스턴스를 시작할 때 현재 세대 인스턴스 유형 및 JVM AMI를 사용하는 것을 권장하고 있다.
+Linux Amazon 머신 이미지는 PV(반가상화) 또는 HVM(하드웨어 가상 머신)의 두 가지 유형 가상화를 사용하는데, 주요 차이점은 부팅 방법과 더 나은 성능을 위해서 특수 하드웨어 확장(CPU, 네트워크, 스토리지)을 활용할 수 있는지 여부에 있다. 최상의 성능을 위해서 AWS는 인스턴스를 시작할 때 현재 세대 인스턴스 유형 및 JVM AMI를 사용하는 것을 권장하고 있다.
 
+##### HVM AMI
+- HVM AMI는 이미지 루트 블록 디바이스의 마스터 부트 레코드를 실행해서 완벽히 가상화된 하드웨어 및 부트 세트를 함께 제공한다.
+- HVM 가상화 타입에서는 Bare Metal에서 구동할 때 처럼 가상 머신에서 운영체제를 수정하지 않고 실행할 수 있다.
+- Amazon EC2 호스트 시스템은 게스트 시스템에 제공하는 기본 하드웨어의 일부 또는 모두를 에뮬레이트 한다.
+- HVM 게스트는 PV 게스트와 달리 Hardware extension을 이용해 하부의 하드웨어에 빠르게 접근할 수 있다.
+- GPU 프로세싱이나 향상된 네트워킹을 이용하려면 HVM AMI가 필요한데, 이에 대한 명령이 통과하기 위해서는 OS는 기본 하드웨어 플랫폼에 접근할 수 있어야 한다. 이를 접근할 수 있도록하는 것이 HVM 가상화.
+- 현재 모든 인스턴스 유형이 HVM AMI 지원한다.
+
+##### PV AMI
+- PV AMI는 PV-GRUB이라는 특수 부트 로더를 통해서 부팅된다. 이 로더는 부팅 시퀀스 시작 후 유저 이미지의 menu.lst 파일에 지정된 커널을 체인 로드한다.
+- PV 게스트는 향상된 네트워킹과 GPU 프로세싱과 같은 Hardware Extension을 활용할 수 없다.
+- C1, C3, HS1, M1, M2, M3, T1 등과 같은 전 세대 인스턴스 유형은 PV AMI를 지원하고, 최신 세대 인스턴스 유형은 PV AMI를 지원하지 않는다.
+
+#### **Shared AMI**
+---
+- **Shared AMI**  :  다른 개발자가 사용할 수 있도록 공유된 AMI
+- Amazon에서는 사용자들의 공유된 AMI의 무결성이나 보안성을 보장하지 않으므로, 주의 필요.
+- AMI에 시작 권한을 정의해, 공개적으로나, 특정 계쩡에만 공유 할 수 있다.
+
+##### Guidelines for Shared Linux AMI
