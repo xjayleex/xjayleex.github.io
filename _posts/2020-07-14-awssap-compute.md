@@ -56,11 +56,12 @@ author: Jaehyun Lee
 ##### - Region & Availability Zone
 ##### - Operating System
 ##### - Computer Architecture
-##### - 시작 권한(Lauch Permissions)  
-AMI 소유자는 시작 권한을 지정하여 가용성 결정
+##### - Launch Permissions 
+  AMI 소유자는 시작 권한을 지정하여 가용성 결정
 - Public  모든 AWS 계정에 시작 권한 부여
 - Explicit  특정 AWS 계정들에 시작 권한 부여
 - Private/Implicit  Creator Account Only  
+
 ##### - Root Device Storage
 - 모든 AMI는 Amazon EBS나 Instance Store를 루트 디바이스 스토리지로 사용
 EBS Backed
