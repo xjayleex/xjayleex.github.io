@@ -25,7 +25,7 @@ author: Jaehyun Lee
 #### **Accessing EC2**
 ---
 ##### Amazon EC2 Console
-- Web 기반 사용자 인터페이스  
+	- Web 기반 사용자 인터페이스  
 
 ##### AWS CLI
 - Window, Mac, Linux 지원  
