@@ -9,7 +9,6 @@ author: Jaehyun Lee
 ---
 ## Understand EC2
 
-
 #### **EC2 Feature**
 ---
 - **EC2 Instance**  :  가상 컴퓨팅 환경
@@ -38,7 +37,7 @@ author: Jaehyun Lee
 - HTTP나 HTTPS Request를 직접 보내는 대신, 각 언어가 제공하는 고유의 API를 사용하도록 라이브러리 제공  
 - 이 라이브러리를 통해서 HTTP/HTTPS Request에 암호화된 사인, Request Retrying, Error Response 핸들링 등의 작업을 자동화할 수 있는 기능 제공
 
-#### **AWS EC2 - AMI**
+### AMI
 ---
 - AMI는 인스턴스를 시작하는 데 필요한 정보를 제공
 - 동일한 구성의 인스턴스가 여러 개 필요할 때에 한 AMI에서 여러 인스턴스 구동 가능
@@ -183,4 +182,9 @@ Amazon Linux 2와 Linux AMI는 다음과 같은 기능을 제공할 수 있도�
 	- SSH 액세스를 허용하도록 인스턴스를 시작하는 데 사용되는 보안 그룹을 설정해야 한다. 기본적으로 SSH를 사용해 원격으로 로그인할 수 있는 계정은 ec2-user뿐이다. (이 계정에는 sudo 권한도 있음)
 	- 여러 버전의 MySQL, PostgreSQL, Python, Ruby, Tomcat 및 더 일반적인 패키지에 대한 Repo  제공.
 	- 최신 컴포넌트들을 포함하도록 정기적으로 업데이트되며, yum repo에서 실행중인 인스턴스에 설치할 수 있도록 제공된다.
+
+### EC2 Instance Types
+---
+- EC2 인스턴스 타입은 인스턴스에 사용되는 Host 하드웨어를 결정한다.
+
 
