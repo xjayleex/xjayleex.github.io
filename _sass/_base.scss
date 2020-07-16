@@ -92,7 +92,7 @@ table td {
 
 ul, ol {
     margin-left: $spacing-unit;
-	margin: 1rem 0;
+	margin: 10px 0;
 	font-size: 1.1rem;
 
 }
@@ -101,8 +101,8 @@ li {
     > ul,
     > ol {
         margin-bottom: 0;
-		margin: 1rem 0;
     }
+	margin: 10px 0;
 }
 
 
