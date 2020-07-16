@@ -26,16 +26,13 @@ author: Jaehyun Lee
 ---
 ##### Amazon EC2 Console
 	- Web 기반 사용자 인터페이스  
-
 ##### AWS CLI
-- Window, Mac, Linux 지원  
-
+	- Window, Mac, Linux 지원  
 ##### AWS Query
-- "Action"이라는 쿼리 변수로, GET, POST Request로 HTTP, HTTPS Request 가능  
-
+	- "Action"이라는 쿼리 변수로, GET, POST Request로 HTTP, HTTPS Request 가능  
 ##### AWS SDK Libraries
-- HTTP나 HTTPS Request를 직접 보내는 대신, 각 언어가 제공하는 고유의 API를 사용하도록 라이브러리 제공  
-- 이 라이브러리를 통해서 HTTP/HTTPS Request에 암호화된 사인, Request Retrying, Error Response 핸들링 등의 작업을 자동화할 수 있는 기능 제공
+	- HTTP나 HTTPS Request를 직접 보내는 대신, 각 언어가 제공하는 고유의 API를 사용하도록 라이브러리 제공  
+	- 이 라이브러리를 통해서 HTTP/HTTPS Request에 암호화된 사인, Request Retrying, Error Response 핸들링 등의 작업을 자동화할 수 있는 기능 제공
 
 ### AMI
 ---
@@ -44,9 +41,9 @@ author: Jaehyun Lee
 - VPC 내에서, 다양한 AMI를 사용해 인스턴스들을 구동 가능
 
 ##### AMI는 다음을 포함
-- 1개 이상의 EBS Snapshot 또는, 인스턴스 저장 지원 AMI의 경우, 인스턴스의 루트 볼륨에 대한 템플릿(e.g. OS, Applcation Server, Apps)
-- AMI를 사용해 인스턴스를 시작할 수 있는 AWS 계정을 제어하는 시작 권한
-- 시작될 때 인스턴스에 연결할 볼륨을 지정하는 블록 디바이스 매핑
+	- 1개 이상의 EBS Snapshot 또는, 인스턴스 저장 지원 AMI의 경우, 인스턴스의 루트 볼륨에 대한 템플릿(e.g. OS, Applcation Server, Apps)
+	- AMI를 사용해 인스턴스를 시작할 수 있는 AWS 계정을 제어하는 시작 권한
+	- 시작될 때 인스턴스에 연결할 볼륨을 지정하는 블록 디바이스 매핑
 
 #### **AMI Types**
 ---
@@ -55,13 +52,12 @@ author: Jaehyun Lee
 ##### - Operating System
 ##### - Computer Architecture
 ##### - Launch Permissions 
-- AMI 소유자는 시작 권한을 지정하여 가용성 결정
-- Public  모든 AWS 계정에 시작 권한 부여
-- Explicit  특정 AWS 계정들에 시작 권한 부여
-- Private/Implicit  Creator Account Only  
-
+	- AMI 소유자는 시작 권한을 지정하여 가용성 결정
+	- Public  모든 AWS 계정에 시작 권한 부여
+	- Explicit  특정 AWS 계정들에 시작 권한 부여
+	- Private/Implicit  Creator Account Only  
 ##### - Root Device Storage
-- 모든 AMI는 Amazon EBS나 Instance Store를 루트 디바이스 스토리지로 사용
+	- 모든 AMI는 Amazon EBS나 Instance Store를 루트 디바이스 스토리지로 사용
 
 - EBS Backed
 	- EBS 볼륨은 EC2 인스턴스의 생명주기로부터 독립적으로 유지된다.
