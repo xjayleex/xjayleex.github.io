@@ -171,6 +171,11 @@ Linux Amazon 머신 이미지는 PV(반가상화) 또는 HVM(하드웨어 가상
 - 암호화되지 않은 스냅샷을 복사해 암호화된 스냅샷을 생성할 수 있지만, 암호화된 스냅샷을 복사해 암호화되지 않은 스냅샷을 생성할 수는 없다.
 
 ##### Deregistering AMI
+- 생성된 AMI에는 빌링이 됨.
+- AMI를 등록 취소해도 EBS 스냅샷과 S#버킷의 번들은 삭제되지 않으며, 별도로 제거해야 한다.
+- AMI 등록 취소는 이미 생성된 인스턴스에는 영향을 미치지 않는다.
+- EBS-Backed AMI를 등록 취소 후, EBS 스냅샷을 삭제한다.
+- Instance Store-Backed AMI를 등록 취소 후, S3 버킷에 있는 번들을 삭제한다.
 
 #### **Amazon Linux 2 and Amazon Linux AMI**
 ---
