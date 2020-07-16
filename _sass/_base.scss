@@ -90,19 +90,20 @@ table td {
 
 /* Lists */
 
-ul, ol {
+ul, ol, li {
     margin-left: $spacing-unit;
 	margin: 40px 0;
 	font-size: 1.1rem;
 
 }
-
+/*
 li {
     > ul,
     > ol {
         margin-bottom: 0;
+		margin: 40px 0;
     }
-}
+}*/
 
 
 /* Links */
