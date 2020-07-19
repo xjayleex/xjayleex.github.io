@@ -145,6 +145,7 @@ author: Jaehyun Lee
 3. 네트워킹의 경우, 트래픽을 여러 인스턴스에 분배하고, 로드밸런서를 가리키는 DNS나 사전 할당된 Elastic IP 주소를 사용할 수 있는 ELB를 사용할 수 있다.
 
 - Preparation phase steps :
+
 1. Data Critical한 데이터를 복제하거나 미러링하도록 EC2 인스턴스 또는 RDS 인스턴스 설정
 2. AWS에서 지원되는 모든 사용자 custom 소프트웨어 패키지를 사용할 수 있는지 확인.
 3. 빠른 복구가 필요한 주요 서버의 AMI를 생성해 유지
@@ -153,6 +154,7 @@ author: Jaehyun Lee
 ![Image](/assets/images/aws/Preparation-Phase-Pilot-Light-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
 
 - Recovery Phase steps :
+
 1. custom AMI로 EC2 인스턴스 기반 애플리케이션 실행.
 2. 기존 데이터베이스와 데이터 store 인스턴스의 크기를 조정해, 증가된 트래픽을 처리(e.g. RDS를 사용하면 수직으로 쉽게 확장할 수 있고, EC2 인스턴스는 수평으로 쉽게 확장 할 수 있음.
 3. 추가적인 데이터베이스와 데이터 store 인스턴스를 추가하여 데이터 계층에서의 DR 사이트 탄력성을 제공하기. 탄력성을 향상시키기 위해 RDS에 멀티 Region 활성화하기..
@@ -161,13 +163,44 @@ author: Jaehyun Lee
 ![Image](/assets/images/aws/Recovery-Phase-Pilot-Light-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
 
 #### **Warm Standby**
+---
 - Warm Standby DR 시나리오에서 비즈니스 Critical한 시스템과 기능적으로 완전히 동일한 환경이 항상 클라우드에서 실행.
 - 이 설정은 테스트, 품질 보증 및 내부적으로 사용하기 위한 용도로 사용 가능.
 - 재난이 발생하면 시스템을 쉽게 Scale-up, out 방식으로 생산 로드를 처리할 수 있음.
 
 - Preparation Phase steps : 
+
 1. 데이터를 복제하거나 미러링 하도록 EC2 인스턴스를 설정.
 2. 더 빠른 프로비저닝을 위해 AMI 생성 및 유지 관리.
 3. 최소한의 EC2 인스턴스 또는 AWS 인프라를 사용해 애플리케이션 실행
 4. 실제 환경에 맞게 소프트웨어 및 Config 파일을 패치하고 업데이트.
 ![Image](/assets/images/aws/Preparation-Phase-Warm-Standby.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
+
+- Recovery Phase steps :
+
+1. 로드 밸런서와 함께 사용중인 EC2 인스턴스 엔드포인트 집합 크기를 늘리기.(Horizontal Scaling)
+2. 필요에 따라 더 큰 리소스를 가진 EC2 인스턴스 유형에서 애플리케이션 구동.(Vertical Scaling)
+3. DNS 레코드를 주기적으로 변경하거나, Route 53 자동 Health Check를 사용하여, 모든 트래픽을 AWS로 라우팅 시키기.
+4. Auto Scaling을 사용하여 fleet(전체 인스턴스 집합을 말하는 듯) 크기를 적절하게 조정해, 증가된 로드 수용.
+5. DR이 다운되는 것이로부터 막기 위해 탄력성을 추가하거나, 데이터베이스 Scale Up.
+![Image](/assets/images/aws/Recovery-Phase-Pilot-Light-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
+
+#### **Multi-Site**
+---
+- Multi-Site는 AWS 온 사이트 인프라로 실행되는 동일한 솔루션으로 Active-Active 구성 DR 접근 방식.
+- 가중치 라우팅 방식이 적용된 DNS 서비스를 사용해 필요에 따라 트래픽을 두 인프라 모두에 균등하게 분배 할 수 있다.
+- 재난 발생 시, 모든 트래픽을 AWS 환경으로 전송하고, 이에 따라 확장된 AWS 인프라로 DNS를 조정 할 수 있다.
+
+- Preparation Phase Steps
+
+1. 프로덕션 환경을 복제하도록 AWS 환경 설정.
+2. DNS 가중치 혹은, 비슷한 트래픽 라우팅 기술을 사용해 요청들을 분산.
+3. 영향을 받는 사이트에서 트래픽을 다시 라우팅하도록 자동 장애 조치 구성. (e.g. 애플리케이션으로 하여금 기본 DB가 사용 가능한지 확인 후, 그렇지 안다면 AWS DB 리디렉션)
+![Image](/assets/images/aws/Preparation-Phase-Multi-Site-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
+
+- Recovery Phase steps :
+
+1. 수동으로 또는 DNS 장애 조치를 사용해 모든 요청이 AWS 사이트로 전송되도록 DNS 가중치를 변경.
+2. 모든 쿼리에 대해 로컬 AWS 데이터베이스 서버를 사용하도록 하기 위한 애플리케이션 로직.
+3. Auto Scaling을 사용해 AWS 집합 크기를 자동 조정.
+![Image](/assets/images/aws/Recovery-Phase-Multi-Site-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
