@@ -144,11 +144,30 @@ author: Jaehyun Lee
 2. 복구하는 동안, (애플리케이션 및 웹 서버와 같은)Full-scale 프로덕션 환경이 사전 구성된 AMI 및 EBS 볼륨 스냅샷을 활용해 핵심 코어를 중심으로 빠르게 프로비저닝 될 수 있음.
 3. 네트워킹의 경우, 트래픽을 여러 인스턴스에 분배하고, 로드밸런서를 가리키는 DNS나 사전 할당된 Elastic IP 주소를 사용할 수 있는 ELB를 사용할 수 있다.
 
-- Preparation phase steps
+- Preparation phase steps :
 1. Data Critical한 데이터를 복제하거나 미러링하도록 EC2 인스턴스 또는 RDS 인스턴스 설정
 2. AWS에서 지원되는 모든 사용자 custom 소프트웨어 패키지를 사용할 수 있는지 확인.
 3. 빠른 복구가 필요한 주요 서버의 AMI를 생성해 유지
 4. 이러한 서버를 정기적으로 실행하고 테스트한 후 소프트웨어 업데이트 및 Config 변경 사항 적용
 5. AWS 리소스 프로비저닝 자동화를 고려.
-
 ![Image](/assets/images/aws/Preparation-Phase-Pilot-Light-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
+
+- Recovery Phase steps :
+1. custom AMI로 EC2 인스턴스 기반 애플리케이션 실행.
+2. 기존 데이터베이스와 데이터 store 인스턴스의 크기를 조정해, 증가된 트래픽을 처리(e.g. RDS를 사용하면 수직으로 쉽게 확장할 수 있고, EC2 인스턴스는 수평으로 쉽게 확장 할 수 있음.
+3. 추가적인 데이터베이스와 데이터 store 인스턴스를 추가하여 데이터 계층에서의 DR 사이트 탄력성을 제공하기. 탄력성을 향상시키기 위해 RDS에 멀티 Region 활성화하기..
+4. DNS가 EC2 서버를 가리키도록 변경.
+5. non-AMI 기반 시스템들을 자동화된 방식으로 구성하고 설치.
+![Image](/assets/images/aws/Recovery-Phase-Pilot-Light-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
+
+#### **Warm Standby**
+- Warm Standby DR 시나리오에서 비즈니스 Critical한 시스템과 기능적으로 완전히 동일한 환경이 항상 클라우드에서 실행.
+- 이 설정은 테스트, 품질 보증 및 내부적으로 사용하기 위한 용도로 사용 가능.
+- 재난이 발생하면 시스템을 쉽게 Scale-up, out 방식으로 생산 로드를 처리할 수 있음.
+
+- Preparation Phase steps : 
+1. 데이터를 복제하거나 미러링 하도록 EC2 인스턴스를 설정.
+2. 더 빠른 프로비저닝을 위해 AMI 생성 및 유지 관리.
+3. 최소한의 EC2 인스턴스 또는 AWS 인프라를 사용해 애플리케이션 실행
+4. 실제 환경에 맞게 소프트웨어 및 Config 파일을 패치하고 업데이트.
+![Image](/assets/images/aws/Preparation-Phase-Warm-Standby.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
