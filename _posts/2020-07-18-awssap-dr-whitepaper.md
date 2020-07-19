@@ -2,7 +2,7 @@
 layout: post
 comment: false
 title: AWS Disaster Recovery Whitepaper
-date: 2020-07-17
+date: 2020-07-18
 category: "AWS"
 tags: [AWS]
 author: Jaehyun Lee
