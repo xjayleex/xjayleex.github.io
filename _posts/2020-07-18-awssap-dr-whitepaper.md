@@ -118,7 +118,7 @@ author: Jaehyun Lee
 
 ##### **Backup phase**
 - 대부분의 기존 환경에서 데이터는 테이프에 백업되고, 중단이나 재난이 발생할 경우, 시스템을 복원하는데 시간이 오래 걸리는 오프 사이트로 정기적으로 전송됨.
-![Image](/assets/images/aws/backupoptions.png){:    styl    e=" width: 80%; margin: 0 auto; display: block;"}
+![Image](/assets/images/aws/backupoptions.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
 
 1. Amazon S3를 사용하여 데이터를 백업하고, 빠른 복원을 수행 할 수 있으며, 모든 지역에서 사용 가능.
 2. AWS Import/Export를 사용해, 인터넷을 우회하여 물리적 스토리지 디바이스에서 AWS에 보내면, Amazon의 고속 인터넷 연결을 사용해 스토리지 디바이스에서 직접 데이터 전송. 
@@ -127,4 +127,28 @@ author: Jaehyun Lee
 5. AWS Direct Connect를 사용해, On-premise에서 Amazon으로 데이터를 일관되고 빠른 속도로 직접 전송 가능.
 6. EBS 볼륨, RDS 데이터베이스 및 Redshift 데이터웨어하우스의 스냅샷을 S3에 저장할 수 있음.
 
+##### **Restore phase**
+- 백업된 데이터를 사용해 컴퓨팅 및 데이터베이스 인스턴스를 신속하게 복원 및 생성.
+![Image](/assets/images/aws/restore-phase.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
 
+1. 데이터를 AWS에 백업할 적절한 도구 및 방법 선택
+2. 데이터에 대한 적절한 Retention Policy 확인
+3. 암호화 및 액세스 정책을 포함하여 데이터에 대한 적절한 보안 조치가 준비되었는지 확인.
+4. 데이터의 복구와 시스템 복구를 정기적 테스트
+
+#### **Pilot Light**
+---
+- Pilot Light DR 시나리오 옵션에서는 최소 버전의 환경이 항상 클라우드에서 실행되며, 애플리케이션의 기능적으로 크리티컬한 부분들을 호스팅한다.
+- 이 접근 방법에서 Database를 예로 들면,
+1. 데이터를 지속적으로 업데이트하고 Replicate 해야하는 데이터베이스와 같이, AWS에서 시스템의 가장 중요한 핵심요소를 구성하고 실행하여 파일럿 기능을 유지.
+2. 복구하는 동안, (애플리케이션 및 웹 서버와 같은)Full-scale 프로덕션 환경이 사전 구성된 AMI 및 EBS 볼륨 스냅샷을 활용해 핵심 코어를 중심으로 빠르게 프로비저닝 될 수 있음.
+3. 네트워킹의 경우, 트래픽을 여러 인스턴스에 분배하고, 로드밸런서를 가리키는 DNS나 사전 할당된 Elastic IP 주소를 사용할 수 있는 ELB를 사용할 수 있다.
+
+- Preparation phase steps
+1. Data Critical한 데이터를 복제하거나 미러링하도록 EC2 인스턴스 또는 RDS 인스턴스 설정
+2. AWS에서 지원되는 모든 사용자 custom 소프트웨어 패키지를 사용할 수 있는지 확인.
+3. 빠른 복구가 필요한 주요 서버의 AMI를 생성해 유지
+4. 이러한 서버를 정기적으로 실행하고 테스트한 후 소프트웨어 업데이트 및 Config 변경 사항 적용
+5. AWS 리소스 프로비저닝 자동화를 고려.
+
+![Image](/assets/images/aws/Preparation-Phase-Pilot-Light-Scenario.png){:    style=" width: 80%; margin: 0 auto; display: block;"}
