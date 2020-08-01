@@ -12,7 +12,7 @@
         <div class="nav-content">
           <ul class="tabs tabs-transparent">
             <li class="tab"><a class="active" href="#tab-main">main</a></li>
-			<li class="tab"><a href="{{ '/about' | prepend: site.baseurl }}">Todo</a></li>
+			<!--<li class="tab"><a href="{{ '/about' | prepend: site.baseurl }}">Todo</a></li>-->
           {% for t in site.data.tabs %}
             <li class="tab {% if t.disabled %}disabled{% endif %}"><a href="#{{ t.id }}">{{ t.name }}</a></li>
           {% endfor %}
