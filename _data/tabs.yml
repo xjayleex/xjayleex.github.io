@@ -3,7 +3,7 @@
 
 - id: tab-test
   name: test
-  fp: tab/about
+  fp: tab/about.md
   disabled: false
 
 #- id: tab-test1
