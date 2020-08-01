@@ -69,6 +69,6 @@ tipue_search:
     collections: []
   exclude:
     files: [search.html, index.html, tags.html]
-	categories: []
-	tags: []
+    categories: []
+    tags: []
 
