@@ -42,7 +42,7 @@ paginate: 7
 #paginate_path: 'page/:num'
 
 gems: [jekyll-paginate, jekyll-last-modified-at, jemoji]
-plugins: ['jekyll-sitemap','tipue_search']
+plugins: ['jekyll-sitemap']
 
 #
 # Custom
@@ -63,12 +63,3 @@ share-button-small-color: ""
 
 ##
 #excerpt_separator: <!-- excerpt_end -->       # for post.excerpt
-tipue_search:
-  include:
-    pages: true
-    collections: []
-  exclude:
-    files: []
-    categories: []
-    tags: []
-
