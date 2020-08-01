@@ -4,7 +4,7 @@
 - id: todo-list-tab
   name: todo-list
   fp: tab/todo.md
-  disabled: false
+  disabled: true
 
 #- id: tab-test1
 #  name: diasble-test
