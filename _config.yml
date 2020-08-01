@@ -65,10 +65,10 @@ share-button-small-color: ""
 #excerpt_separator: <!-- excerpt_end -->       # for post.excerpt
 tipue_search:
   include:
-    pages: false
+    pages: true
     collections: []
   exclude:
-    files: [search.html, index.html, tags.html]
+    files: []
     categories: []
     tags: []
 
