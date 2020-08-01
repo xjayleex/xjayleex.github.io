@@ -1,10 +1,10 @@
 # **NOTE**
 # 1. Empty strings are truthy.
 
-#- id: tab-test
-#  name: test
-#  fp: tab/todo.md
-#  disabled: false
+- id: tab-test
+  name: test
+  fp: /about
+  disabled: false
 
 #- id: tab-test1
 #  name: diasble-test
