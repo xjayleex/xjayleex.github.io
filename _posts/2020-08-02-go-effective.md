@@ -13,9 +13,9 @@ author: Jaehyun Lee
 
 [Type Switch](#type-switch)
 
-##Naming
+## Naming
 ---
-####Package names
+#### Package names
 
 - 패키지명은 소문자, 한 단어로만 네이밍(언더바(-), 대소문자 혼용 필요 없도록)  
 - Naming 지저분하게 하는 것들을 피할 것.
@@ -24,7 +24,7 @@ author: Jaehyun Lee
 	- 위와 같이 사용하기 위해 패키지 구조를 활용할 것.
 	- ex) `once.Do`의 경우 once.Do(setup)으로 사용해도 문제가 없으며, once.DoOrWaitUntilDone(setup)으로 한다고 해서 가독성만 나빠질 뿐,  나아지는 것이 없다. 긴 이름은 다는 것 보다, 주석 활용할 것.
 
-####Getter
+#### Getter
 
 - getter, setter를 Automatic하게 지원하지는 않으나, 사용되도 좋음.
 - getter의 이름에 Get을 넣는 것은 go style이 아님. 만약에 owner 라는 private 필드를 가지고 있다면 getter는 GetOnwer가 아닌 Owner라고 네이밍, setter는 SetOnwer라고 네이밍 하면 됨.
@@ -35,13 +35,13 @@ if owner != user {
 }
 {% endhighlight %}
 
-####Interface name
+#### Interface name
 
 - one-method 인터페이스는 메서드 이름에 `-er` 접미사 붙임. ex) Reader, Writer, Formatter, CloseNotifier
 
-##Control Structures
+## Control Structures
 ---
-####If
+#### If
 
 - if와 switch가 `초기화 구문` 허용
 {% highlight go %}
@@ -52,7 +52,7 @@ if err := file.Chmod(0604); err != nil {
 {% endhighlight %}
 - 불필요한 else문 생략
 
-####For
+#### For
 
 Array, Slice, String, Map, Channel에 대한 반복문을 작성한다면, range 구문 사용 가능
 {% highlight go %}
@@ -85,7 +85,7 @@ for i, j := 0, len(a)-1; i < j ; i, j = i+1, j-1 {
 }
 {% endhighlight %}
 
-####Switch
+#### Switch
 
 Go에서 Switch는 다른 언어에서 보다 더 일반적인 표현이 가능하다. 표현식은 상수이거나 정수일 필요 없다. case 구문은 위에서부터 바닥까지 해당 구문이 `true`가 아닌 동안 일치하는 값을 찾을 때까지 값을 비교해 나간다.
 `if-else-if-else` 형태보다 `switch`를 사용하는 것이 **더 Go언어 답다.**
