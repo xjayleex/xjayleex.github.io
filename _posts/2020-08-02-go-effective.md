@@ -11,9 +11,11 @@ author: Jaehyun Lee
 ##### [Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.
 
 
-## Naming
+[Type Switch](#type-switch)
+
+##Naming
 ---
-#### Package names
+####Package names
 
 - 패키지명은 소문자, 한 단어로만 네이밍(언더바(-), 대소문자 혼용 필요 없도록)  
 - Naming 지저분하게 하는 것들을 피할 것.
@@ -22,7 +24,7 @@ author: Jaehyun Lee
 	- 위와 같이 사용하기 위해 패키지 구조를 활용할 것.
 	- ex) `once.Do`의 경우 once.Do(setup)으로 사용해도 문제가 없으며, once.DoOrWaitUntilDone(setup)으로 한다고 해서 가독성만 나빠질 뿐,  나아지는 것이 없다. 긴 이름은 다는 것 보다, 주석 활용할 것.
 
-#### Getter
+####Getter
 
 - getter, setter를 Automatic하게 지원하지는 않으나, 사용되도 좋음.
 - getter의 이름에 Get을 넣는 것은 go style이 아님. 만약에 owner 라는 private 필드를 가지고 있다면 getter는 GetOnwer가 아닌 Owner라고 네이밍, setter는 SetOnwer라고 네이밍 하면 됨.
@@ -33,15 +35,15 @@ if owner != user {
 }
 {% endhighlight %}
 
-#### Interface name
+####Interface name
 
 - one-method 인터페이스는 메서드 이름에 `-er` 접미사 붙임. ex) Reader, Writer, Formatter, CloseNotifier
 
-## Control Structures
+##Control Structures
 ---
-#### If
+####If
 
-- if와 switch가`초기화 구문` 허용
+- if와 switch가 `초기화 구문` 허용
 {% highlight go %}
 if err := file.Chmod(0604); err != nil {
 	log.Print(err)
@@ -50,7 +52,7 @@ if err := file.Chmod(0604); err != nil {
 {% endhighlight %}
 - 불필요한 else문 생략
 
-#### For
+####For
 
 Array, Slice, String, Map, Channel에 대한 반복문을 작성한다면, range 구문 사용 가능
 {% highlight go %}
@@ -83,4 +85,75 @@ for i, j := 0, len(a)-1; i < j ; i, j = i+1, j-1 {
 }
 {% endhighlight %}
 
-#### Switch
+####Switch
+
+Go에서 Switch는 다른 언어에서 보다 더 일반적인 표현이 가능하다. 표현식은 상수이거나 정수일 필요 없다. case 구문은 위에서부터 바닥까지 해당 구문이 `true`가 아닌 동안 일치하는 값을 찾을 때까지 값을 비교해 나간다.
+`if-else-if-else` 형태보다 `switch`를 사용하는 것이 **더 Go언어 답다.**
+{% highlight go %}
+func unhex(c byte) byte {
+    switch {
+    case '0' <= c && c <= '9':
+        return c - '0'
+    case 'a' <= c && c <= 'f':
+        return c - 'a' + 10
+    case 'A' <= c && c <= 'F':
+        return c - 'A' + 10
+    }
+    return 0
+}
+{% endhighlight %}
+
+`switch`에서는 자동으로 케이스 구문을 통과하는 동작이 없지만, 콤마로 구분된 목록을 사용해 표현할 수 있다.
+{% highlight go %}
+switch sholudEscape(c byte) bool {
+	switch c {
+	case ' ', '?', '&', '!' :
+		return true
+	}
+	return false
+}
+{% endhighlight %}
+
+`switch`문 이용한 바이트 슬라이스 비교 루틴
+{% highlight go %}
+// Compare returns an integer comparing the two byte slices,
+// lexicographically.
+// The result will be 0 if a == b, -1 if a < b, and +1 if a > b
+func Compare(a, b []byte) int {
+    for i := 0; i < len(a) && i < len(b); i++ {
+        switch {
+        case a[i] > b[i]:
+            return 1
+        case a[i] < b[i]:
+            return -1
+        }
+    }
+    switch {
+    case len(a) > len(b):
+        return 1
+    case len(a) < len(b):
+        return -1
+    }
+    return 0
+}
+{% endhighlight %}
+
+####Type Switch
+
+스위치 구문은 `인터페이스 변수`의 동적 타입을 확인하는 데 사용 될 수 있다. 이러한 switch는 type assertion 문법을 사용하되, 키워드는 type을 사용한다. 
+{% highlight go %}
+var t interface{}
+t = functionOfSomeType()
+switch t := t.(type) {
+default:
+    fmt.Printf("unexpected type %T\n", t)     // %T prints whatever type t has
+case bool:
+    fmt.Printf("boolean %t\n", t)             // t has type bool
+case int:
+    fmt.Printf("integer %d\n", t)             // t has type int
+case *bool:
+    fmt.Printf("pointer to boolean %t\n", *t) // t has type *bool
+case *int:
+    fmt.Printf("pointer to integer %d\n", *t) // t has type *int
+}
+{% endhighlight %}
