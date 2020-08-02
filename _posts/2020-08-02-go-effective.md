@@ -138,7 +138,7 @@ func Compare(a, b []byte) int {
 }
 {% endhighlight %}
 
-####Type Switch
+#### Type Switch
 
 스위치 구문은 `인터페이스 변수`의 동적 타입을 확인하는 데 사용 될 수 있다. 이러한 switch는 type assertion 문법을 사용하되, 키워드는 type을 사용한다. 
 {% highlight go %}
