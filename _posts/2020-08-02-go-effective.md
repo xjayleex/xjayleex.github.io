@@ -11,7 +11,7 @@ author: Jaehyun Lee
 ##### [Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.
 
 
-[Type Switch](#type-switch)
+[**Type Switch**](#type-switch)
 
 ## Naming
 ---
