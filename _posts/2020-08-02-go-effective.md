@@ -701,3 +701,9 @@ func ArgServer(w http.ResponseWriter, req *http.Request) {
 }
 {% endhighlight %}
 누군가가 /args를 방문하면 HTTP 서버는 HandlerFunc 타입의 ServeHTTP 메소드를 call하고, 리시버로 ArgServer를 사용한다. 이 후 HandlerFunc.ServerHTTP안에서 f(w,req)를 call한다.
+
+```go
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, req *Request) {
+     f(w, req)
+}
+```
