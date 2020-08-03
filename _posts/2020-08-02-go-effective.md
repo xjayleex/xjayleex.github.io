@@ -654,5 +654,50 @@ if str, ok := value.(string); ok {
 type Handler interface {
     ServeHTTP(ResponseWriter, *Request)
 }
-`ResponseWriter` 또한 클라이언트에 응답을 보내는데 필요한 메소드들을 제공하는 인터페이스이다. 이 메소드들은 표준 Write 메소드들을 포함하기 때문에, `http.ResponseWriter`은 `io.Writer`가 사용될 수 있는 곳이면 어디에나 사용할 수 있다.
 {% endhighlight %}
+`ResponseWriter` 또한 클라이언트에 응답을 보내는데 필요한 메소드들을 제공하는 인터페이스이다. 이 메소드들은 표준 Write 메소드들을 포함하기 때문에, `http.ResponseWriter`은 `io.Writer`가 사용될 수 있는 곳이면 어디에나 사용할 수 있다.
+
+페이지 방문 수를 세는 handler의 예시.
+{% highlight go %}
+type Counter struct {
+    n int
+}
+
+func (ctr *Counter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+    ctr.n++
+    fmt.Fprintf(w, "counter = %d\n", ctr.n)
+}
+{% endhighlight %}
+(`Fprintf`가 `http.ResponseWriter`를 출력할 수 있다.)
+
+서버를 구동할 때 사용한 Argument들을 보여주려는 경우를 가정해보자.
+{% highlight go %}
+func ArgServer() {
+    fmt.Println(os.Args)
+}
+{% endhighlight %}
+이를 HTTP 서버로 바꾸려면, 포인터와 인터페이스만 뺴고 어떠한 타입에나 메소드를 정의할 수 있다는 점을 이용해, 함수에 메소드를 쓸 수 있다. `http` 패키지에 다음과 같은 코드가 있다.
+{% highlight go %}
+type HandlerFunc func(ResponseWriter, *Request)
+
+// ServeHTTP calls f(w, req).
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, req *Request) {
+    f(w, req)
+}
+{% endhighlight %}
+HandlerFunc는 어댑터로서, HandlerFunc(f)는 f를 call하는 Handler 객체이다. `HandlerFunc`는 `ServeHTTP` 메소드를 가지는 타입으로, 이 타입은 HTTP request에 응답하는 서비스를 제공한다. 
+ArgServer를 HTTP로 만들기 위해, 적절한 signature를 가지도록 한다.
+{% highlight go %}
+// Argument server.
+func ArgServer(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintln(w, os.Args)
+}
+{% endhighlight %}
+이제 ServeHTTP를 사용하기 위해 ArgServer로 바꿀 수 있다.
+{% highlight go %}
+// Argument server.
+func ArgServer(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintln(w, os.Args)
+}
+{% endhighlight %}
+누군가가 /args를 방문하면 HTTP 서버는 HandlerFunc 타입의 ServeHTTP 메소드를 call하고, 리시버로 ArgServer를 사용한다. 이 후 HandlerFunc.ServerHTTP안에서 f(w,req)를 call한다.
