@@ -1,7 +1,7 @@
 ---
 layout: post
 comment: false
-title: Go Effective 정리
+title: Effective Go (번역 및 요약 정리)
 date: 2020-08-02
 category: "Golang"
 tags: [Golang, Go Effective]
@@ -159,7 +159,7 @@ case *int:
 {% endhighlight %}
 
 ## Function
-
+---
 #### Named result parameters
 
 이름 있는 결과 인자값을 통해 코드를 짧게, 명확하게 할 수 있다. 또, 문서화에 도움된다.
@@ -202,10 +202,62 @@ func Contents(filename string) (string, error) {
 }
 {% endhighlight %}
 `f.Close()`와 같은 함수 호출을 연기하는 것은 두 가지 장점을 가져다 준다. 첫번째, 파일을 닫는 것을 잊어버리는 실수를 하지 않도록 해준다. 두번째, `Open` 근처에 `Close`를 위치 시킴으로써 훨씬 더 Readable한 코드를 만들어준다.
-`defer` 함수의 파라미터들은 함수가 호출 될 때가 아니라, `defer`가 실행될 때 ㅂ평가된다.
+`defer` 함수의 파라미터들은 함수가 호출 될 때가 아니라, `defer`가 실행될 때 평가된다.
+또한, 함수 실행시 변숙밧이 변하는 것에 대해 걱정할 필요가 없다. 특정 defer 호출 위치에서 여러개의 함수 호출을 지연할 수 있는 것이다.
 
 {% highlight go %}
 for i := 0; i < 5; i++ {
     defer fmt.Printf("%d ", i)
 }
 {% endhighlight %}
+연기된 함수는 LIFO 순서에 의해 실행되며, 4 3 2 1 0 을 출력한다.
+
+## Data
+---
+Go에서 메모리를 할당하기 위한 방식으로는 built-in 함수 `new`와 `make`가 있다
+
+#### new를 이용한 메모리 할당
+
+`new`는 메모리를 할당하긴 하지만, 다른 언어에 존재하는 new와는 다르게 메모리를 초기화하지 않고 단지 값을 제로화환다. 다시 말해, new(T)는 Type T의 새로운 객체에 제로값이 저장된 공간을 할당하고 그 객체의 주소인, `*T`값을 반환하는 것이다. 새로 제로값으로 할당된 타입 T를 가리키는 포인터를 반환하는 것이다.
+`new`를 통해 반환된 메모리는 제로값을 가지고 있기 때문에, 초기화 과정없이 사용된 타입의 제로값을 쓸 수 있도록 자료구조를 설계하면 좋다. 예로써, `byte.Buffer`는 문서에서 "Buffer의 제로값은 바로 사용할 수 있는 빈 버퍼이다"라고 한다. `sync.Mutex`도 어떠한 contructor나 Init 메서드가 없이, 제로값은 잠기지 않은 mutex로 정의되어 있다.
+
+제로값의 이러한 이점은 전이적인 특성이 있다.
+{% highlight go %}
+type SyncedBuffer struct {
+	lock 	sync.Mutex
+	buffer	bytes.Buffer
+}
+
+p := new(SyncedBuffer)
+var v SyncedBuffer
+{% endhighlight %}
+`SyncedBuffer` 타입은 메로라 할당이나 선언만으로 당장 사용할 수 있다.
+
+#### Constructor and Composite Literal
+
+때로는 제로값만으로는 충분하지 않고, 생성자로 초기화해야 할 필요가 있다.
+{% highlight go %}
+func NewFile(fd int, name string) *File {
+    if fd < 0 {
+        return nil
+    }
+    f := new(File)
+    f.fd = fd
+    f.name = name
+    f.dirinfo = nil
+    f.nepipe = 0
+    return f
+}
+{% endhighlight %}
+위 예시에는 불필요하게 코드들이 반복되어 있다(boiler plate). 이를 합성 리터럴(composite literal)로 간소화할 수 있고, 표현이 실행될 때마다 새로운 인스턴스를 만들어 낸다.
+
+{% highlight go %}
+func NewFile(fd int, name string) *File {
+    if fd < 0 {
+        return nil
+    }
+    f := File{fd, name, nil, 0}
+    return &f
+}
+{% endhighlight %}
+
