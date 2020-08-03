@@ -63,3 +63,6 @@
 .highlight .gu { color: #75715e; } /* Generic.Subheading & Diff Unified/Comment? */
 .highlight .gd { color: #f92672; } /* Generic.Deleted & Diff Deleted */
 .highlight .gi { color: #a6e22e; } /* Generic.Inserted & Diff Inserted */
+.highlight,pre.highlight{
++font-family: 'D2 coding', "Consolas", monospace;
+background:#222222;color:#aab1bf;}

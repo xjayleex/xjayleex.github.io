@@ -231,7 +231,7 @@ type SyncedBuffer struct {
 p := new(SyncedBuffer)
 var v SyncedBuffer
 {% endhighlight %}
-`SyncedBuffer` 타입은 메로라 할당이나 선언만으로 당장 사용할 수 있다.
+`SyncedBuffer` 타입은 메로리 할당이나 선언만으로 당장 사용할 수 있다.
 
 #### Constructor and Composite Literal
 ---
