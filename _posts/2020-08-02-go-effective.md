@@ -157,3 +157,55 @@ case *int:
     fmt.Printf("pointer to integer %d\n", *t) // t has type *int
 }
 {% endhighlight %}
+
+## Function
+
+#### Named result parameters
+
+이름 있는 결과 인자값을 통해 코드를 짧게, 명확하게 할 수 있다. 또, 문서화에 도움된다.
+{% highlight go %}
+func ReadFull(r Reader, buf []byte) (n int, err error) {
+    for len(buf) > 0 && err == nil {
+        var nr int
+        nr, err = r.Read(buf)
+        n += nr
+        buf = buf[nr:]
+    }
+    return
+}
+{% endhighlight %}
+
+#### Defer
+
+Go의 `defer`문은 `defer`을 실행하는 함수가 리턴하기 전에 `defer`에 명시된 함수를 호출하도록 예약한다. Mutex의 잠금을 풀거나, 네트워크 Channel 등을 닫아야하는 상황에 효과적인 방법이다.
+{% highlight go %}
+func Contents(filename string) (string, error) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return "", err
+    }
+    defer f.Close()  // f.Close will run when we're finished.
+
+    var result []byte
+    buf := make([]byte, 100)
+    for {
+        n, err := f.Read(buf[0:])
+        result = append(result, buf[0:n]...) // append is discussed later.
+        if err != nil {
+            if err == io.EOF {
+                break
+            }
+            return "", err  // f will be closed if we return here.
+        }
+    }
+    return string(result), nil // f will be closed if we return here.
+}
+{% endhighlight %}
+`f.Close()`와 같은 함수 호출을 연기하는 것은 두 가지 장점을 가져다 준다. 첫번째, 파일을 닫는 것을 잊어버리는 실수를 하지 않도록 해준다. 두번째, `Open` 근처에 `Close`를 위치 시킴으로써 훨씬 더 Readable한 코드를 만들어준다.
+`defer` 함수의 파라미터들은 함수가 호출 될 때가 아니라, `defer`가 실행될 때 ㅂ평가된다.
+
+{% highlight go %}
+for i := 0; i < 5; i++ {
+    defer fmt.Printf("%d ", i)
+}
+{% endhighlight %}
