@@ -504,4 +504,155 @@ func init() {
 ---
 #### Pointer vs Value
 ---
-[**ByteSize**](#constants)에서 볼 수 있듯, 메서드는 모든 타입에 대해 정 
+[**ByteSize**](#constants)에서 볼 수 있듯, 메서드는 모든 타입에 대해 정의할 수 있다. 
+Slice에 대한 논의에서 Append 함수를 작성했다. 이를 Slice의 메서드로서 정의 할 수 있다.
+
+{% highlight go %}
+type ByteSlice []byte
+func (slice ByteSlice) Append(data []byte) []byte {
+	...
+}
+{% endhighlight %}
+위의 함수는 여전히 슬라이스를 리턴해야할 필요가 있다. `ByteSlice`에 대한 포인터를 리시버로 받을 수 있게 재정의함으로써 이러한 오버헤드를 없앨 수 있다.
+
+{% highlight go %}
+func (p *ByteSlice) Append(data []byte) {
+    slice := *p
+	...
+    *p = slice
+}
+{% endhighlight %}
+이를 더 발전시켜 표준 `Write` 메소드처럼 만들어보면,
+{% highlight go %}
+func (p *ByteSlice) Write(data []byte) (n int, err error) {
+    slice := *p
+	...
+    *p = slice
+    return len(data), nil
+}
+{% endhighlight %}
+위의 `*ByteSlice`는 표준 인터페이스인 `io.Write`를 따르게되며, 다음과 같이 다루기 편해진다.
+{% highlight go %}
+var b ByteSlice
+fmt.Fprintf(&b, "This hour has %d days\n", 7)
+{% endhighlight %}
+리시버로 포인터를 쓸 것인지 Value를 쓸 것인지에 대한 규칙은,
+Value만 사용하는 메서드는 포인터와 Value에서 모두 사용할 수 있으며,
+포인터 메서드의 경우에는 포인터에서만 사용 가능하다.
+Go에서는 Value에서 포인터 메서드를 실행하는 것을 허용하지 않는다. 주소를 얻을 수 있는 Value의 경우, 포인터 메소드를 Value에 대해 실행할 경우 자동으로 주소 연산을 넣어준다. 위의 예시에서 `b`는 주소로 접근 할 수 있으므로 `b.Write`만으로 `Write` 메서드를 호출할 수 있다. 컴파일러가 이를 `(&b).Write`로 바꿔줄 것이다.
+
+## Interface and other types
+---
+#### Interface
+---
+Go 인터페이스를 이용해 객체의 행위를 지정해줄 수 있다. 어떠한 객체가 정해진 행동을 할 수 있다면, 호환되는 타입으로 사용 할 수 있다는 의미이다(이게 진정한 인터페이스의 의미인듯?).
+Go 인터페이스에서는 보편적으로 한 두개의 메서드를 지정해준다. 인터페이스 이름은 메서드(동사)로 부터 나온다.
+각 타입은 복수의 인터페이스를 구현할 수 있다. 예로써, `sort.Interface`를 구현하고 있는 `collection`을 들 수 있다.
+{% highlight go %}
+type Interface interface {
+    // Len is the number of elements in the collection.
+    Len() int
+    // Less reports whether the element with
+    // index i should sort before the element with index j.
+    Less(i, j int) bool
+    // Swap swaps the elements with indexes i and j.
+    Swap(i, j int)
+}
+{% endhighlight %}
+다음의 `Sequence`는 두 개의 인터페이스를 구현하고 있다.
+{% highlight go %}
+type Sequence []int
+
+// sort.Interface를 위한 필수적인 메서드들.
+func (s Sequence) Len() int {
+    return len(s)
+}
+func (s Sequence) Less(i, j int) bool {
+    return s[i] < s[j]
+}
+func (s Sequence) Swap(i, j int) {
+    s[i], s[j] = s[j], s[i]
+}
+
+// 프린팅에 필요한 메서드 - 프린트하기 전에 요소들을 정렬함.
+func (s Sequence) String() string {
+    sort.Sort(s)
+    str := "["
+    for i, elem := range s {
+        if i > 0 {
+            str += " "
+        }
+        str += fmt.Sprint(elem)
+    }
+    return str + "]"
+}
+{% endhighlight %}
+
+#### Conversions
+---
+`Sequence`의 String 메서드는 Sprint가 슬라이스를 가지고 하는 일을 반복하고 있는데, Sprint를 실행하기 전 Sequence를 []int로 변환해 작업을 줄일 수 있다.
+{% highlight go %}
+func (s Sequence) String() string {
+    sort.Sort(s)
+    return fmt.Sprint([]int(s))
+}
+{% endhighlight %}
+Seqeuence와 []int 두 타입이 이름을 제외하고 동일하기 떄문에 서로 변환할 수 있는 것이다. 이러한 타입 변환은 새로운 값을 만들어 내지 않는다.
+Go에서 다른 메소드를 사용하기 위해 타입 변환을 사용하는 것인 Go style이다. 예로써, `sort.IntSlice`를 사용해 위의 전체 코드를 다음과 같이 간소화할 수 있다.
+{% highlight go %}
+type Sequence []int
+
+func (s Sequence) String() string {
+    sort.IntSlice(s).Sort()
+    return fmt.Sprint([]int(s))
+}
+{% endhighlight %}
+`Sequence`가 복수의 인터페이스를 구현하는 대신, 하나의 객체가 복수의 타입(Sequence, sort.IntSlice, []int)로 변환 될 수 있는 점을 이용하고 있다.
+
+#### Interface conversions and type assertions
+---
+[**Type Switch**](#type-switch)는 conversion의 하나의 형태로, 인터페이스를 받아 switch문의 각 case에 맞게 타입을 변환한다. 아래의 코드는 value가 이미 string인 경우 인터페이스의 실제 string 값을, value가 String 메소드를 가지고 있을 경우에는 String 메소드를 실행한 결과를 리턴한다.
+
+{% highlight go %}
+type Stringer interface {
+    String() string
+}
+
+var value interface{} 
+switch str := value.(type) {
+case string:
+    return str
+case Stringer:
+    return str.String()
+}
+{% endhighlight %}
+첫번째 case는 구체적인 값을 찾은 경우고, 두번쨰 case는 인터페이스를 또 다른 인터페이스르 변환한 경우이다.
+오로지 한 타입에만 관심이 있는 경우, 예를 들어, value가 string을 저장하는 것을 알고 있는 상태라면 `Type Assertion`을 쓸 수 있다. `Type Assertion`은 인터페이스를 명시하는 타입의 값으로 추출한다.
+{% highlight go %}
+//value.(typeName)
+str := value.(string)
+{% endhighlight %}
+하지만 값이 string을 가지고 있지 않은 경우, 런타임 에러가 발생한다. 이러한 상황을 위해 `"Comma, ok"` 관용구를 사용해 값을 검사한다.
+{% highlight go %}
+if str, ok := value.(string); ok {
+    return str
+} else if str, ok := value.(Stringer); ok {
+    return str.String()
+}
+{% endhighlight %}
+
+#### Generality
+---
+어떤 타입이 인터페이스를 구현하기 위해서만 존재한다면(인터페이스를 제외하고 어떠한 메소드도 노출시키지 않은 경우), 타입을 노출 시킬 필요가 없다. 이는 인터페이스에 추상화된 기능외에 다른 어떠한 기능도 제공하지 않는다는 것을 확실하게 전달한다.
+이 경우, constructor는 구현 타입이 아닌 인터페이스 값을 반환해야 한다. 예로써, 해쉬 라이브러리인 `crc32.NewIEEE`와 `adler32.New`는 `hash.Hash32`를 반환한다. `crc-32`를 `adler-32`로 교체하려면 단순히 consturctor call만 바꿔주면 되며, 그 외의 코드들은 알고리즘 변화에 영향을 받지 않는다.
+
+#### Interfaces and methods
+---
+다음과 같은 예에서 `Handler`를 구현하는 어느 객체든 HTTP request를 서비스할 수 있다.
+
+{% highlight go %}
+type Handler interface {
+    ServeHTTP(ResponseWriter, *Request)
+}
+`ResponseWriter` 또한 클라이언트에 응답을 보내는데 필요한 메소드들을 제공하는 인터페이스이다. 이 메소드들은 표준 Write 메소드들을 포함하기 때문에, `http.ResponseWriter`은 `io.Writer`가 사용될 수 있는 곳이면 어디에나 사용할 수 있다.
+{% endhighlight %}
