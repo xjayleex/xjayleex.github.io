@@ -394,6 +394,7 @@ seconds, ok = timeZone[tz]
 이를 "comma ok" 관용구라 한다. tz가 있으면, ok는 true, 없으면 seconds는 제로값이 되고 ok는 false가 된다.
 
 #### Append
+---
 `append`의 시그니처는 도식적으로 아래와 같다.
 {% highlight go %}
 func append(slice []T, elements ...T) []T
@@ -418,3 +419,89 @@ fmt.Println(x)
 {% endhighlight %}
 
 ...이 없으면 컴파일 되지 않는다. y는 int 타입이 아니기 때문이다.
+
+## Initialization
+---
+#### Constants
+---
+Go에서는 열거형(enum) 상수를 iota라는 enumerator를 이용해 생성한다. iota는 암묵적으로 반복될 수 있어, 복잡한 값들로 구성된 집합 생성을 쉽게 한다.
+{% highlight go %}
+type ByteSize float64
+
+const (
+    _           = iota // 공백 식별자를 이용해서 값인 0을 무시
+    KB ByteSize = 1 << (10 * iota)
+    MB
+    GB
+    TB
+    PB
+    EB
+    ZB
+    YB
+)
+{% endhighlight %}
+
+`ByteSize` 자료형의 String 메소드
+
+{% highlight go %}
+func (b ByteSize) String() string {
+    switch {
+    case b >= YB:
+        return fmt.Sprintf("%.2fYB", b/YB)
+    case b >= ZB:
+        return fmt.Sprintf("%.2fZB", b/ZB)
+    case b >= EB:
+        return fmt.Sprintf("%.2fEB", b/EB)
+    case b >= PB:
+        return fmt.Sprintf("%.2fPB", b/PB)
+    case b >= TB:
+        return fmt.Sprintf("%.2fTB", b/TB)
+    case b >= GB:
+        return fmt.Sprintf("%.2fGB", b/GB)
+    case b >= MB:
+        return fmt.Sprintf("%.2fMB", b/MB)
+    case b >= KB:
+        return fmt.Sprintf("%.2fKB", b/KB)
+    }
+    return fmt.Sprintf("%.2fB", b)
+}
+{% endhighlight %}
+
+#### Variable
+---
+변수는 상수와 같은 방식으로 초기화하며, 런타임에 계산되는 표현식이어도 된다.
+
+{% highlight go %}
+var (
+    home   = os.Getenv("HOME")
+    user   = os.Getenv("USER")
+    gopath = os.Getenv("GOPATH")
+)
+{% endhighlight %}
+
+#### Init function
+---
+init 함수를 정의해 필요한 상태를 셋업할 수 있다. init 함수는 매개변수를 가지지 않는다. init 함수는 import된 모든 패키지들이 초기화되고 패키지 내의 모든 변수 선언이 평가된 이후에 호출된다.
+선언의 형태로 표현하지 못하는 것들 외에도, 실제 프로그램이 실행되기 전에 프로그램 상태를 검증하고, 올바르게 동작하도록 복구하는데 자주 사용된다.
+
+{% highlight go %}
+func init() {
+    if user == "" {
+        log.Fatal("$USER not set")
+    }
+    if home == "" {
+        home = "/home/" + user
+    }
+    if gopath == "" {
+        gopath = home + "/go"
+    }
+    // gopath may be overridden by --gopath flag on command line.
+    flag.StringVar(&gopath, "gopath", gopath, "override default GOPATH")
+}
+{% endhighlight %}
+
+## Method
+---
+#### Pointer vs Value
+---
+[ByteSize](constants)에서 보듯이, 
