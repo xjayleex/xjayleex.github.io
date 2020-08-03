@@ -504,4 +504,4 @@ func init() {
 ---
 #### Pointer vs Value
 ---
-[ByteSize](constants)에서 보듯이, 
+[**ByteSize**](#constants)에서 볼 수 있듯, 메서드는 모든 타입에 대해 정 
