@@ -1,10 +1,10 @@
 # **NOTE**
 # 1. Empty strings are truthy.
 
-- id: todo-list-tab
-  name: todo-list
-  fp: tab/todo.md
-  disabled: true
+#- id: todo-list-tab
+#  name: todo-list
+#  fp: tab/todo.md
+#  disabled: true
 
 #- id: tab-test1
 #  name: diasble-test
