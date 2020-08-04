@@ -851,7 +851,7 @@ func (rw *ReadWriter) Read(p []byte) (n int, err error) {
     return rw.reader.Read(p)
 }
 ```
-이를 피하기 위해 struct를 직접 임베딩한다. 임베딩된 타입의 메서드들은 자동으로 포함되며, `bufio.ReadWriter`는 `bufio.Reader`와 `bufio.Writer`의 메서드를 모두 가지게됨과 동시에, `io.Reader`, `io.Writer`, `io.ReadWriter` 인터페이스도 충족시키게 되는 것이다.
+이를 피하기 위해 struct를 직접 임베딩한다. 임베딩된 타입의 메서드들은 자동으로 포함되며, `bufio.ReadWriter`는 `bufio.Reader`와 `bufio.Writer`의 메서드를 모두 가지게됨과 동시에, `io.Reader`, `io.Writer`, `io.ReadWriter` 인터페이스도 충족시키게 되는 것이다.  
 타입을 임베드하면, 타입의 메서드들이 외부 타입의 메서드가 되지만, 호출된 메서드의 리시버는 내부 타입이다. `bufio.ReadWriter`의 Read 메서드가 호출될 때, forwarding method를 사용한 것과 똑같은 효과가 있다. 리시버는 ReadWriter의 reader필드이지, ReadWriter가 아닌 것이다.
 
 ```go
@@ -880,6 +880,6 @@ func (job *Job) Logf(format string, args ...interface{}) {
     job.Logger.Logf("%q: %s", job.Command, fmt.Sprintf(format, args...))
 }
 ```
-이름이 충돌하는 문제를 해결하는 두 가지 방법이 있다.
-첫번째로, 필드와 메소드는 타입내에 더 깊숙하게 중첩되어 있는 다른 X를 가린다. log.Logger가 Command라는 필드나 메소드를 가지고 있다면, Job의 Command 필드가 우세하다.
-둘째로, 같은 이름이 같은 레벨에 있다면 에러가 발생한다. 만약 Job이 Logger라는 다른 필드나 메소드를 가지고 있다면, `log.Logger`를 임베딩하는 것은 잘못된 방식이다. 하지만 이 이름이 사용되지 않는다면 문제가 없다.
+이름이 충돌하는 문제를 해결하는 두 가지 방법이 있다.  
+첫번째로, 필드와 메소드는 타입내에 더 깊숙하게 중첩되어 있는 다른 X를 가린다. log.Logger가 Command라는 필드나 메소드를 가지고 있다면, Job의 Command 필드가 우세하다.  
+두번째로, 같은 이름이 같은 레벨에 있다면 에러가 발생한다. 만약 Job이 Logger라는 다른 필드나 메소드를 가지고 있다면, `log.Logger`를 임베딩하는 것은 잘못된 방식이다. 하지만 이 이름이 사용되지 않는다면 문제가 없다.
