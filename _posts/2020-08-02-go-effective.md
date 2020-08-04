@@ -702,8 +702,184 @@ func ArgServer(w http.ResponseWriter, req *http.Request) {
 {% endhighlight %}
 누군가가 /args를 방문하면 HTTP 서버는 HandlerFunc 타입의 ServeHTTP 메소드를 call하고, 리시버로 ArgServer를 사용한다. 이 후 HandlerFunc.ServerHTTP안에서 f(w,req)를 call한다.
 
+## The blank identifier
+---
+`for range`, `map` 설명에서 보았듯, 공백 식별자는 그 어떠한 타입에 대해서나 할당될 수 있다. 
+---
+#### The blank identifier in multiple assignment
+---
+좌변에 여러개의 값을 할당하는데, 그 중 사용되지 않는 변수가 있을 경우, 공백 식별자를 두어 변수를 생성할 필요가 없게 한다.
+{% highlight go %}
+if _, err := os.Stat(path); os.IsNotExist(err) {
+	fmt.Printf("%s does not exist\n", path)
+}
+{% endhighlight %}
+에러를 무시하기 위해서 에러값을 버리는 코드는 잘못된 방법이다. 에러를 리턴하는 함수라면, 항상 에러를 확인해야 한다.
+{% highlight go %}
+// Bad! This code will crash if path does not exist.
+fi, _ := os.Stat(path)
+if fi.IsDir() {
+    fmt.Printf("%s is a directory\n", path)
+}
+{% endhighlight %}
+
+#### Unused imports and variables
+---
+Go에서는 미사용 import를 허용하지 않는데, 개발 중에 종종 사용하지 않는 임포트와 변수들이 생길 수 있다. 컴파일을 위해 나중에 다시 필요할 import를 지우는 것은 비효율적일 수 있고, 공백 식별자는 이를 피할 수 있도록 한다.
+예로써, 미사용 임포트(`fmt`,`io`)와 변수(`fd`)를 가지고 있는 예제가 있다. 이는 컴파일 되지 않는다.
+{% highlight go %}
+package main
+
+import (
+    "fmt"
+    "io"
+    "log"
+    "os"
+)
+
+func main() {
+    fd, err := os.Open("test.go")
+    if err != nil {
+        log.Fatal(err)
+    }
+    // TODO: use fd.
+}
+{% endhighlight %}
+미사용된 임포트와 변수를 공백 식별자에 할당해 컴파일 에러를 해결할 수 있다.
+{% highlight go %}
+package main
+
+import (
+    "fmt"
+    "io"
+    "log"
+    "os"
+)
+
+var _ = fmt.Printf // For debugging; delete when done.
+var _ io.Reader    // For debugging; delete when done.
+
+func main() {
+    fd, err := os.Open("test.go")
+    if err != nil {
+        log.Fatal(err)
+    }
+    // TODO: use fd.
+    _ = fd
+}
+{% endhighlight %}
+미사용 import 구문 할당은 임포트 구문 바로 다음에 위치시키며, 주석을 달아주어, 후에 코드 정리를 상기시키도록 한다.
+
+#### Import for side effect
+---
+사용하지는 않는데, Side effect를 위해 패키지를 임포트할 수 있다. 예로써, `net/http/pprof` 패키지는 패키지의 init() 함수에서 디버깅 정보를 제공하는 HTTP 핸들러를 등록한다.
+{% highlight go %}
+// nethttp/pprof.go
+func init() {
+	http.HandleFunc("/debug/pprof/", Index)
+	http.HandleFunc("/debug/pprof/cmdline", Cmdline)
+	http.HandleFunc("/debug/pprof/profile", Profile)
+	http.HandleFunc("/debug/pprof/symbol", Symbol)
+	http.HandleFunc("/debug/pprof/trace", Trace)
+}
+{% endhighlight %}
+Side effect만을 위해 패키지를 임포트하기 위해 임포트한 패키지를 공백 식별자로 바꾼다.
+
+{% highlight go %}
+import _ "net/http/pprof"
+{% endhighlight %}
+이 파일에서 패키지가 이름을 가지고 있지 않기 때문에 사용될 수 없고, 이로써 패키지가 Side effect를 위해 임포트되었음을 명학하게 할 수 있다.
+
+#### Interface checks
+---
+타입은 인터페이스를 구현했다는 것을 명시적으로 선언할 필요가 없지만, 타입은 인터페이스의 메소드를 구현함으로써, 인터페이스를 구현한다. 대부분의 인터페이스 변환은 static하며 컴파일 도중 검사가 이루어진다. 예로써, `*os.File`이 `io.Reader` 인터페이스를 구현하지 않았는데 `io.Reader`를 인자로 받는 함수에 전달하면 컴파일이 되지 않는다.
+런타임 때 인터페이스 검사가 이루어지는 경우도 있다. 예로써, `encoding/json`패키지의 `Marshaler` 인터페이스가 있다. JSON 인코더가 인터페이스를 구현한 타입 값을 받을 때, 표준 변환을 진행하는 대신 타입 값의 marsharling 메소드를 실행한다. 인코더는 런타임에서 타입 단언을 통해 프로퍼티를 검사한다.
+{% highlight go %}
+if _, ok := val.(json.Marshaler); ok {
+    fmt.Printf("value %v of type %T implements json.Marshaler\n", val, val)
+}
+{% endhighlight %}
+패키지가 인터페이스를 만족시키는 타입을 구현했는지 보장하기 위해 위와 같은 방식을 쓸 수 있다. 컴파일러가 이를 자동으로 확인하지는 않는다. 타입이 인터페이스를 만족하는데에 실패하면 JSON 인코더는 실행되지만 구현체를 사용할 수 없게되는 것이다. 인터페이스 구현을 보장하기 위해 패키지 안에서 blank identifier를 전역으로 선언한다.
+{% highlight go %}
+var _ json.Marshaler = (*RawMessage)(nil)
+{% endhighlight %}
+위의 선언에서 `*RawMessage`를 `Marshaler`로 변환시키는 할당으로 Marshaler를 구현할 것을 요구하고 있다. 이는 컴파일시 검사된다.
+{% highlight go %}
+type RawMessage json.RawMessage
+var _ json.Marshaler = (*RawMessage)(nil)
+func (r *RawMessage) MarshalJSON()([]byte,error) {
+	...
+}
+{% endhighlight %}
+위에서 공백 식별자는 선언 자체가 변수를 만드는 것이 아니라 오로지 타입 검사를 위해서만 선언되었음을 알려주고 있다.
+
+## Embedding
+---
+Go는 subclassing을 제공하지 않으나, struct나 인터페이스에 Type Embedding을 통해 구현체의 일부를 빌릴 수 있다. `io.Reader`와 `io.Writer` 인터페이스로 인터페이스 임베딩을 설명할 수 있다.
 ```go
-func (f HandlerFunc) ServeHTTP(w ResponseWriter, req *Request) {
-     f(w, req)
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+
+type Writer interface {
+    Write(p []byte) (n int, err error)
 }
 ```
+`io`패키지의 `io.ReadWriter`는 Read와 Write를 모두 가지고 있다. 두 메소드를 `io.ReadWriter`에 새롭게 정의 할 수도 있지만, 더 좋은 방법은 위의 두 인터페이스를 임베딩하도록 인터페이스를 만드는 것이다.
+```go
+type ReadWriter interface {
+    Reader
+    Writer
+}
+```
+인터페이스 임베딩을 위해서는 인터페이스 간에 서로 공통된 메소드가 없어야 한다.
+
+`bufio`패키지에는 `bufio.Reader`와 `bufio.Writer` 두가지 구조체가 있다. `bufio`는 마찬가지로 임베딩을 이용해 reader와 writer를 하나의 struct에 embed해 reader/writer를 구현하고 있다 **struct안에 필드 이름이 없는 타입을 나열한다.**
+```go
+// ReadWriter stores pointers to a Reader and a Writer.
+// It implements io.ReadWriter.
+type ReadWriter struct {
+    *Reader  // *bufio.Reader (o)
+    *Writer  // *bufio.Writer (o)
+	//reader	*Reader (x)
+	//writer	*Writer (x)
+}
+```
+(x)로 마킹한 코드처럼 선언하게 되면, reader와 writer가 가지고 있는 메서드를 사용해 `io`를 충족시키기 위해서 forwarding method를 따로 작성해야하는 오버헤드가 발생한다.
+```go
+func (rw *ReadWriter) Read(p []byte) (n int, err error) {
+    return rw.reader.Read(p)
+}
+```
+이를 피하기 위해 struct를 직접 임베딩한다. 임베딩된 타입의 메서드들은 자동으로 포함되며, `bufio.ReadWriter`는 `bufio.Reader`와 `bufio.Writer`의 메서드를 모두 가지게됨과 동시에, `io.Reader`, `io.Writer`, `io.ReadWriter` 인터페이스도 충족시키게 되는 것이다.
+타입을 임베드하면, 타입의 메서드들이 외부 타입의 메서드가 되지만, 호출된 메서드의 리시버는 내부 타입이다. `bufio.ReadWriter`의 Read 메서드가 호출될 때, forwarding method를 사용한 것과 똑같은 효과가 있다. 리시버는 ReadWriter의 reader필드이지, ReadWriter가 아닌 것이다.
+
+```go
+type Job struct {
+    Command string
+    *log.Logger
+}
+```
+위에서 Job 타입은 `*log.Logger`에 있는 Log, Logf와 같은 메서드를 가진다. Logger에 이름을 줄 필요가 없고, Job 인스턴스가 초기화되면 Job 인스턴스에서 직접 Log를 사용할 수 있다.
+```go
+job.Log("starting now...")
+```
+Logger는 Job struct의 일반 필드이기 때문에 다음과 같이 초기화 할 수 있다.
+```go
+func NewJob(command string, logger *log.Logger) *Job {
+    return &Job{command, logger}
+}
+```
+또는 Composite literal을 통해,
+```go
+job := &Job{command, log.New(os.Stderr, "Job: ", log.Ldate)}
+```
+임베드드된 필드를 직접 명시해, 임베딩된 메소드를 수정할 수도 있다. 이때는 필드의 패키지명을 뺀 타입명을 필드 네임으로 사용한다. log.Logger의 경우, 패키지명 log를 뺀 job.Logger라고 쓰면 된다.
+```go
+func (job *Job) Logf(format string, args ...interface{}) {
+    job.Logger.Logf("%q: %s", job.Command, fmt.Sprintf(format, args...))
+}
+```
+이름이 충돌하는 문제를 해결하는 두 가지 방법이 있다.
+첫번째로, 필드와 메소드는 타입내에 더 깊숙하게 중첩되어 있는 다른 X를 가린다. log.Logger가 Command라는 필드나 메소드를 가지고 있다면, Job의 Command 필드가 우세하다.
+둘째로, 같은 이름이 같은 레벨에 있다면 에러가 발생한다. 만약 Job이 Logger라는 다른 필드나 메소드를 가지고 있다면, `log.Logger`를 임베딩하는 것은 잘못된 방식이다. 하지만 이 이름이 사용되지 않는다면 문제가 없다.
