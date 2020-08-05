@@ -8,10 +8,10 @@ tags: [Golang, Go Effective]
 author: Jaehyun Lee
 ---
 
-#### **[Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.**
+#### [Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.
 ### Contents  
 [**Naming**](#naming)  
-    [**Package names**](#package-names)  
+ * [**Package names**](#package-names)  
 	[**Getter**](#getter)  
 	[**Interface names**](#interface-names)  
 [**Control Structures**](#control-structures)  
