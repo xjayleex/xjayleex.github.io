@@ -1007,3 +1007,16 @@ for try := 0; try < 2; try++ {
 
 ## A web server
 ---
+~~~ go
+for try := 0; try < 2; try++ {
+    file, err = os.Create(filename)
+    if err == nil {
+        return
+    }
+    if e, ok := err.(*os.PathError); ok && e.Err == syscall.ENOSPC {
+        deleteTempFiles()  // 공간을 확보한다.
+        continue
+    }
+    return
+}
+~~~
