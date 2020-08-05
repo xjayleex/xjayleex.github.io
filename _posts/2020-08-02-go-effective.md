@@ -9,10 +9,9 @@ author: Jaehyun Lee
 ---
 
 #### **[Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.**
-
-### Contents
+### Contents  
 [**Naming**](#naming)  
-	[**Package names**](#package-names)  
+> [**Package names**](#package-names)  
 	[**Getter**](#getter)  
 	[**Interface names**](#interface-names)  
 [**Control Structures**](#control-structures)  
@@ -21,13 +20,13 @@ author: Jaehyun Lee
 	[**Switch**](#switch)  
 	[**Type Switch**](#type-switch)  
 [**Function**](#function)
-... [**Named result parameters**](#named-result-parameters)
-... [**Defer**](#defer)
+	[**Named result parameters**](#named-result-parameters)
+	[**Defer**](#defer)
 [**Data**](#data)
-... [**Allocation with New**](#allocation-with-new)
-... [**Constructor and Composite literal**](#constructor-and-composite-literal)
-... [**Allocation with Make**](#allocation-with-make)
-... [**Array**](#array)
+	[**Allocation with New**](#allocation-with-new)
+	[**Constructor and Composite literal**](#constructor-and-composite-literal)
+	[**Allocation with Make**](#allocation-with-make)
+	[**Array**](#array)
 ... [**Slices**](#slices)
 ... [**Two Dimensional Slice**](#two-dimensional-slice)
 ... [**Map**](#map)
