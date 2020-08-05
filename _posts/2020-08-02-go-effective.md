@@ -11,11 +11,11 @@ author: Jaehyun Lee
 #### **[Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.**
 
 ### Contents
-[**Naming**](#naming)
-... [**Package names**](#package-names)
-... [**Getter**](#getter)
-... [**Interface names**](#interface-names)
-[**Control Structures**](#control-structures)
+[**Naming**](#naming)  
+... [**Package names**](#package-names)  
+... [**Getter**](#getter)  
+... [**Interface names**](#interface-names)  
+[**Control Structures**](#control-structures)  
 ... [**If**](#if)
 ... [**For**](#for)
 ... [**Switch**](#switch)
