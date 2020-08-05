@@ -8,51 +8,10 @@ tags: [Golang, Go Effective]
 author: Jaehyun Lee
 ---
 
-#### **[Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.**
+##### [Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.
 
-### Contents
-[**Naming**](#naming)
-... [**Package names**](#package-names)
-... [**Getter**](#getter)
-... [**Interface names**](#interface-names)
-[**Control Structures**](#control-structures)
-... [**If**](#if)
-... [**For**](#for)
-... [**Switch**](#switch)
-... [**Type Switch**](#type-switch)
-[**Function**](#function)
-... [**Named result parameters**](#named-result-parameters)
-... [**Defer**](#defer)
-[**Data**](#data)
-... [**Allocation with New**](#allocation-with-new)
-... [**Constructor and Composite literal**](#constructor-and-composite-literal)
-... [**Allocation with Make**](#allocation-with-make)
-... [**Array**](#array)
-... [**Slices**](#slices)
-... [**Two Dimensional Slice**](#two-dimensional-slice)
-... [**Map**](#map)
-... [**Append**](#append)
-[**Initialization**](#initialization)
-... [**Constants**](#constants)
-... [**Variable**](#variable)
-... [**The init function**](#the-init-function)
-[**Method**](#method)
-... [**Pointers vs. Values**](#pointers-vs.-values)
-[**Interface and other types**](#interface-and-other-types)
-... [**Interface**](#interface)
-... [**Conversions**](#conversions)
-... [**Interface conversions and type assertions**](#interface-conversions-and-type-assertions)
-... [**Generality**](#generality)
-... [**Interfaces and methods**](#interfaces-and-methods)
-[**The blank identifier**](#the-blank-identifier)
-... [**The blank identifier in multiple assignment**](#the-blank-identifier-in-multiple-assignment)
-... [**Unused imports and variables**](#unused-imports-and-variables)
-... [**Import for side effect**](#import-for-side-effect)
-... [**Interface checks**](#interface-checks)
-[**Embedding**](#embedding)
-[**Errors**](#errors)
-... [**Panic**](#panic)
-... [**Recover**](#recover)
+
+[**Type Switch**](#type-switch)
 
 ## Naming
 ---
@@ -76,7 +35,7 @@ if owner != user {
 }
 {% endhighlight %}
 
-#### Interface names
+#### Interface name
 ---
 - one-method 인터페이스는 메서드 이름에 `-er` 접미사 붙임. ex) Reader, Writer, Formatter, CloseNotifier
 
@@ -255,9 +214,9 @@ for i := 0; i < 5; i++ {
 
 ## Data
 ---
-Go에서 메모리를 할당하기 위한 방식으로는 built-in 함수 `new`와 `make`가 있다.
+Go에서 메모리를 할당하기 위한 방식으로는 built-in 함수 `new`와 `make`가 있다
 
-#### Allocation with New
+#### new를 이용한 메모리 할당
 ---
 `new`는 메모리를 할당하긴 하지만, 다른 언어에 존재하는 new와는 다르게 메모리를 초기화하지 않고 단지 값을 제로화환다. 다시 말해, new(T)는 Type T의 새로운 객체에 제로값이 저장된 공간을 할당하고 그 객체의 주소인, `*T`값을 반환하는 것이다. 새로 제로값으로 할당된 타입 T를 가리키는 포인터를 반환하는 것이다.
 `new`를 통해 반환된 메모리는 제로값을 가지고 있기 때문에, 초기화 과정없이 사용된 타입의 제로값을 쓸 수 있도록 자료구조를 설계하면 좋다. 예로써, `byte.Buffer`는 문서에서 "Buffer의 제로값은 바로 사용할 수 있는 빈 버퍼이다"라고 한다. `sync.Mutex`도 어떠한 contructor나 Init 메서드가 없이, 제로값은 잠기지 않은 mutex로 정의되어 있다.
@@ -274,7 +233,7 @@ var v SyncedBuffer
 {% endhighlight %}
 `SyncedBuffer` 타입은 메로리 할당이나 선언만으로 당장 사용할 수 있다.
 
-#### Constructor and Composite literal
+#### Constructor and Composite Literal
 ---
 때로는 제로값만으로는 충분하지 않고, 생성자로 초기화해야 할 필요가 있다.
 {% highlight go %}
@@ -303,7 +262,7 @@ func NewFile(fd int, name string) *File {
 {% endhighlight %}
 만약, 합성 리터럴이 필드를 아예 가지지 않을 떄에는, 제로값을 생성한다. `new(File)`은 `&File{}`과 동일한 표현이다.
 
-#### Allocation with Make
+#### make를 이용한 메모리 할당
 ---
 `make(T,args)`는 `new(T)`와 다른 목적의 서비스를 제공한다. 이는 slice, map, channel에만 사용하고 (*T가 아닌) Type T의 제로값이 아닌 초기화된 값을 반환한다. 이는 위의 세 타입이 사용전에 반드시 내부적으로 초기화 되어야하는 자료구조를 가리키고 있기 때문이다. 예로써, slice는 데이터를 가리키는 포인터, Len, Capacity를 인자로 가지며, 이 항목들이 초기화되기 전까지는 `nil`이다. 
 
@@ -520,7 +479,7 @@ var (
 )
 {% endhighlight %}
 
-#### The init function
+#### Init function
 ---
 init 함수를 정의해 필요한 상태를 셋업할 수 있다. init 함수는 매개변수를 가지지 않는다. init 함수는 import된 모든 패키지들이 초기화되고 패키지 내의 모든 변수 선언이 평가된 이후에 호출된다.
 선언의 형태로 표현하지 못하는 것들 외에도, 실제 프로그램이 실행되기 전에 프로그램 상태를 검증하고, 올바르게 동작하도록 복구하는데 자주 사용된다.
@@ -543,7 +502,7 @@ func init() {
 
 ## Method
 ---
-#### Pointers vs. Values
+#### Pointer vs Value
 ---
 [**ByteSize**](#constants)에서 볼 수 있듯, 메서드는 모든 타입에 대해 정의할 수 있다. 
 Slice에 대한 논의에서 Append 함수를 작성했다. 이를 Slice의 메서드로서 정의 할 수 있다.
@@ -974,5 +933,3 @@ for try := 0; try < 2; try++ {
 #### Panic
 ---
 
-#### Recover
----
