@@ -121,7 +121,7 @@ for key := range m {
 range 안에서 두번째 아이템만이 필요하면, Blank Identifier 명시
 {% highlight go %}
 sum := 0
-for _, value := range array {
+for &#95;, value := range array {
 	sum += value
 }
 {% endhighlight %}
@@ -285,7 +285,7 @@ var v SyncedBuffer
 ---
 때로는 제로값만으로는 충분하지 않고, 생성자로 초기화해야 할 필요가 있다.
 {% highlight go %}
-func NewFile(fd int, name string) *File {
+func NewFile(fd int, name string) &#42;File {
     if fd < 0 {
         return nil
     }
@@ -300,7 +300,7 @@ func NewFile(fd int, name string) *File {
 위 예시에는 불필요하게 코드들이 반복되어 있다(boiler plate). 이를 합성 리터럴(composite literal)로 간소화할 수 있고, 표현이 실행될 때마다 새로운 인스턴스를 만들어 낸다.
 
 {% highlight go %}
-func NewFile(fd int, name string) *File {
+func NewFile(fd int, name string) &#42;File {
     if fd < 0 {
         return nil
     }
@@ -312,16 +312,16 @@ func NewFile(fd int, name string) *File {
 
 #### Allocation with Make
 ---
-`make(T,args)`는 `new(T)`와 다른 목적의 서비스를 제공한다. 이는 slice, map, channel에만 사용하고 (*T가 아닌) Type T의 제로값이 아닌 초기화된 값을 반환한다. 이는 위의 세 타입이 사용전에 반드시 내부적으로 초기화 되어야하는 자료구조를 가리키고 있기 때문이다. 예로써, slice는 데이터를 가리키는 포인터, Len, Capacity를 인자로 가지며, 이 항목들이 초기화되기 전까지는 `nil`이다. 
+`make(T,args)`는 `new(T)`와 다른 목적의 서비스를 제공한다. 이는 slice, map, channel에만 사용하고 (&#42;T가 아닌) Type T의 제로값이 아닌 초기화된 값을 반환한다. 이는 위의 세 타입이 사용전에 반드시 내부적으로 초기화 되어야하는 자료구조를 가리키고 있기 때문이다. 예로써, slice는 데이터를 가리키는 포인터, Len, Capacity를 인자로 가지며, 이 항목들이 초기화되기 전까지는 `nil`이다. 
 
 다음 예제는 `new`와 `make`의 차이점을 보여준다.
 {% highlight go %}
-var p *[]int = new([]int)       // slice 구조체를 할당한다; *p == nil; 거의 유용하지 않다
+var p &#42;[]int = new([]int)       // slice 구조체를 할당한다; &#42;p == nil; 거의 유용하지 않다
 var v  []int = make([]int, 100) // slice v는 이제 100개의 int를 갖는 배열을 참조한다
 
 // 불필요하게 복잡한 경우:
-var p *[]int = new([]int)
-*p = make([]int, 100, 100)
+var p &#42;[]int = new([]int)
+&#42;p = make([]int, 100, 100)
 
 // Go 언어다운 경우:
 v := make([]int, 100)
@@ -334,7 +334,7 @@ v := make([]int, 100)
 - 배열 크기는 Type의 한 부분으로, 예를 들어 `[10]int`와 `[20]int`는 서로 다른 타입이다.
 함수에 pass할 때, 복사를 막아 효율성을 위한다면 배열 포인터를 사용할 수 있다.
 {% highlight go %}
-func Sum(a *[3]float64) (sum float64) {
+func Sum(a &#42;[3]float64) (sum float64) {
     for _, v := range *a {
         sum += v
     }
@@ -350,7 +350,7 @@ x := Sum(&array)
 ---
 Slice는 내부의 배열을 가리키는 레퍼런스를 가지고 있어, 만약 다른 slice에 Assign 할 때, 둘다 같은 배열을 가리키게 된다. 
 {% highlight go %}
-func (f *File) Read(buf []byte) (n int, err error)
+func (f &#42;File) Read(buf []byte) (n int, err error)
 
 n, err := f.Read(buf[0:32])
 {% endhighlight %}
@@ -405,7 +405,7 @@ for i := range picture {
 {% highlight go %}
 picture := make([][]uint8, YSize) // 유닛 y마다 한 줄씩.
 // 모든 픽셀들을 담을 수 있는 큰 slice를 할당하라.
-pixels := make([]uint8, XSize*YSize) // picture는 [][]uint8 타입이지만 pixels는 []uint8 타입.
+pixels := make([]uint8, XSize&#42;YSize) // picture는 [][]uint8 타입이지만 pixels는 []uint8 타입.
 // 각 줄을 반복하면서, 남겨진 pixels slice의 처음부터 크기대로 슬라이싱하라.
 for i := range picture {
 	picture[i], pixels = pixels[:XSize], pixels[XSize:]
@@ -564,7 +564,7 @@ func (slice ByteSlice) Append(data []byte) []byte {
 위의 함수는 여전히 슬라이스를 리턴해야할 필요가 있다. `ByteSlice`에 대한 포인터를 리시버로 받을 수 있게 재정의함으로써 이러한 오버헤드를 없앨 수 있다.
 
 {% highlight go %}
-func (p *ByteSlice) Append(data []byte) {
+func (p &#42;ByteSlice) Append(data []byte) {
     slice := *p
 	...
     *p = slice
@@ -572,7 +572,7 @@ func (p *ByteSlice) Append(data []byte) {
 {% endhighlight %}
 이를 더 발전시켜 표준 `Write` 메소드처럼 만들어보면,
 {% highlight go %}
-func (p *ByteSlice) Write(data []byte) (n int, err error) {
+func (p &#42;ByteSlice) Write(data []byte) (n int, err error) {
     slice := *p
 	...
     *p = slice
@@ -711,7 +711,7 @@ type Counter struct {
     n int
 }
 
-func (ctr *Counter) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+func (ctr &#42;Counter) ServeHTTP(w http.ResponseWriter, req &#42;http.Request) {
     ctr.n++
     fmt.Fprintf(w, "counter = %d\n", ctr.n)
 }
@@ -726,10 +726,10 @@ func ArgServer() {
 {% endhighlight %}
 이를 HTTP 서버로 바꾸려면, 포인터와 인터페이스만 뺴고 어떠한 타입에나 메소드를 정의할 수 있다는 점을 이용해, 함수에 메소드를 쓸 수 있다. `http` 패키지에 다음과 같은 코드가 있다.
 {% highlight go %}
-type HandlerFunc func(ResponseWriter, *Request)
+type HandlerFunc func(ResponseWriter, &#42;Request)
 
 // ServeHTTP calls f(w, req).
-func (f HandlerFunc) ServeHTTP(w ResponseWriter, req *Request) {
+func (f HandlerFunc) ServeHTTP(w ResponseWriter, req &#42;Request) {
     f(w, req)
 }
 {% endhighlight %}
@@ -737,14 +737,14 @@ HandlerFunc는 어댑터로서, HandlerFunc(f)는 f를 call하는 Handler 객체
 ArgServer를 HTTP로 만들기 위해, 적절한 signature를 가지도록 한다.
 {% highlight go %}
 // Argument server.
-func ArgServer(w http.ResponseWriter, req *http.Request) {
+func ArgServer(w http.ResponseWriter, req &#42;http.Request) {
     fmt.Fprintln(w, os.Args)
 }
 {% endhighlight %}
 이제 ServeHTTP를 사용하기 위해 ArgServer로 바꿀 수 있다.
 {% highlight go %}
 // Argument server.
-func ArgServer(w http.ResponseWriter, req *http.Request) {
+func ArgServer(w http.ResponseWriter, req &#42;http.Request) {
     fmt.Fprintln(w, os.Args)
 }
 {% endhighlight %}
@@ -758,7 +758,7 @@ func ArgServer(w http.ResponseWriter, req *http.Request) {
 ---
 좌변에 여러개의 값을 할당하는데, 그 중 사용되지 않는 변수가 있을 경우, 공백 식별자를 두어 변수를 생성할 필요가 없게 한다.
 {% highlight go %}
-if _, err := os.Stat(path); os.IsNotExist(err) {
+if &#95;, err := os.Stat(path); os.IsNotExist(err) {
 	fmt.Printf("%s does not exist\n", path)
 }
 {% endhighlight %}
@@ -843,19 +843,19 @@ import _ "net/http/pprof"
 타입은 인터페이스를 구현했다는 것을 명시적으로 선언할 필요가 없지만, 타입은 인터페이스의 메소드를 구현함으로써, 인터페이스를 구현한다. 대부분의 인터페이스 변환은 static하며 컴파일 도중 검사가 이루어진다. 예로써, `*os.File`이 `io.Reader` 인터페이스를 구현하지 않았는데 `io.Reader`를 인자로 받는 함수에 전달하면 컴파일이 되지 않는다.
 런타임 때 인터페이스 검사가 이루어지는 경우도 있다. 예로써, `encoding/json`패키지의 `Marshaler` 인터페이스가 있다. JSON 인코더가 인터페이스를 구현한 타입 값을 받을 때, 표준 변환을 진행하는 대신 타입 값의 marsharling 메소드를 실행한다. 인코더는 런타임에서 타입 단언을 통해 프로퍼티를 검사한다.
 {% highlight go %}
-if _, ok := val.(json.Marshaler); ok {
+if &#95;, ok := val.(json.Marshaler); ok {
     fmt.Printf("value %v of type %T implements json.Marshaler\n", val, val)
 }
 {% endhighlight %}
 패키지가 인터페이스를 만족시키는 타입을 구현했는지 보장하기 위해 위와 같은 방식을 쓸 수 있다. 컴파일러가 이를 자동으로 확인하지는 않는다. 타입이 인터페이스를 만족하는데에 실패하면 JSON 인코더는 실행되지만 구현체를 사용할 수 없게되는 것이다. 인터페이스 구현을 보장하기 위해 패키지 안에서 blank identifier를 전역으로 선언한다.
 {% highlight go %}
-var _ json.Marshaler = (*RawMessage)(nil)
+var _ json.Marshaler = (&#42;RawMessage)(nil)
 {% endhighlight %}
 위의 선언에서 `*RawMessage`를 `Marshaler`로 변환시키는 할당으로 Marshaler를 구현할 것을 요구하고 있다. 이는 컴파일시 검사된다.
 {% highlight go %}
 type RawMessage json.RawMessage
-var _ json.Marshaler = (*RawMessage)(nil)
-func (r *RawMessage) MarshalJSON()([]byte,error) {
+var _ json.Marshaler = (&#42;RawMessage)(nil)
+func (r &#42;RawMessage) MarshalJSON()([]byte,error) {
 	...
 }
 {% endhighlight %}
@@ -908,7 +908,7 @@ type Job struct {
     *log.Logger
 }
 ```
-위에서 Job 타입은 `*log.Logger`에 있는 Log, Logf와 같은 메서드를 가진다. Logger에 이름을 줄 필요가 없고, Job 인스턴스가 초기화되면 Job 인스턴스에서 직접 Log를 사용할 수 있다.
+위에서 Job 타입은 `&#42;log.Logger`에 있는 Log, Logf와 같은 메서드를 가진다. Logger에 이름을 줄 필요가 없고, Job 인스턴스가 초기화되면 Job 인스턴스에서 직접 Log를 사용할 수 있다.
 ```go
 job.Log("starting now...")
 ```
@@ -934,7 +934,7 @@ func (job *Job) Logf(format string, args ...interface{}) {
 
 ## Errors
 ---
-[^lib]Library routine은 에러 징후가 보인다면 caller에게 자주 리턴해주어야 한다. 이전에 언급했듯, Go의 Multivalue return은 상세한 에러 내용을 제공하기 쉽게 한다. 예로써, `os.Open`은 fail시 `nil`뿐만 아니라, 무엇이 잘못되었는지에 대한 에러 내용도 리턴한다.
+Library routine은 에러 징후가 보인다면 caller에게 자주 리턴해주어야 한다[^lib]. 이전에 언급했듯, Go의 Multivalue return은 상세한 에러 내용을 제공하기 쉽게 한다. 예로써, `os.Open`은 fail시 `nil`뿐만 아니라, 무엇이 잘못되었는지에 대한 에러 내용도 리턴한다.  
 [^lib]: 라이브러리 루틴은 일반적으로 발새하는 문제나 작업을 처리하도록 설계된 디버깅된 code block(subroutines, procedure, function).  
 관례적으로, 에러는 간단한 built-in 인터페이스 타입인 error를 가진다.
 ```go
