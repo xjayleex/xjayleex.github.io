@@ -8,7 +8,7 @@ tags: [Golang, Go Effective]
 author: Jaehyun Lee
 ---
 
-#### [Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.
+> #### [Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.
 ### Contents  
 [**Naming**](#naming)  
 &ensp;&ensp;&ensp;[**Package names**](#package-names)  
@@ -1007,16 +1007,3 @@ for try := 0; try < 2; try++ {
 
 ## A web server
 ---
-~~~ go
-for try := 0; try < 2; try++ {
-    file, err = os.Create(filename)
-    if err == nil {
-        return
-    }
-    if e, ok := err.(*os.PathError); ok && e.Err == syscall.ENOSPC {
-        deleteTempFiles()  // 공간을 확보한다.
-        continue
-    }
-    return
-}
-~~~
