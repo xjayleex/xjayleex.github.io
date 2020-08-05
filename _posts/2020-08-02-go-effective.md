@@ -934,8 +934,8 @@ func (job *Job) Logf(format string, args ...interface{}) {
 
 ## Errors
 ---
-Library routine[^libraryroutine]은 에러 징후가 보인다면 caller에게 자주 리턴해주어야 한다. 이전에 언급했듯, Go의 Multivalue return은 상세한 에러 내용을 제공하기 쉽게 한다. 예로써, `os.Open`은 fail시 `nil`뿐만 아니라, 무엇이 잘못되었는지에 대한 에러 내용도 리턴한다.
-[^libraryroutine]: 라이브러리 루틴은 일반적으로 발새하는 문제나 작업을 처리하도록 설계된 디버깅된 code block(subroutines, procedure, function).  
+[^lib]Library routine은 에러 징후가 보인다면 caller에게 자주 리턴해주어야 한다. 이전에 언급했듯, Go의 Multivalue return은 상세한 에러 내용을 제공하기 쉽게 한다. 예로써, `os.Open`은 fail시 `nil`뿐만 아니라, 무엇이 잘못되었는지에 대한 에러 내용도 리턴한다.
+[^lib]: 라이브러리 루틴은 일반적으로 발새하는 문제나 작업을 처리하도록 설계된 디버깅된 code block(subroutines, procedure, function).  
 관례적으로, 에러는 간단한 built-in 인터페이스 타입인 error를 가진다.
 ```go
 type error interface {
