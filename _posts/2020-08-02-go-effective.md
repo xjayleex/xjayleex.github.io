@@ -13,7 +13,7 @@ author: Jaehyun Lee
 > ### Contents  
 [**Naming**](#naming)  
 &ensp;&ensp;&ensp;[**Package names**](#package-names)  
-&ensp;&ensp;&ensp;;[**Getter**](#getter)  
+&ensp;&ensp;&ensp;[**Getter**](#getter)  
 &ensp;&ensp;&ensp;[**Interface names**](#interface-names)  
 [**Control Structures**](#control-structures)  
 &ensp;&ensp;&ensp;[**If**](#if)  
@@ -62,7 +62,7 @@ author: Jaehyun Lee
 &ensp;&ensp;&ensp;[**A leaky buffer**](#a-leaky-buffer)  
 [**A web server**](#a-web-server)  
 
-## Naming
+## **Naming**
 ---
 #### Package names
 ---
