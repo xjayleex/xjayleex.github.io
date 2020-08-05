@@ -11,47 +11,55 @@ author: Jaehyun Lee
 #### [Effective Go](https://golang.org/doc/effective_go.html) 의 개인 참고용 번역 및 요약본입니다.
 ### Contents  
 [**Naming**](#naming)  
-&ensp;[**Package names**](#package-names)  
-	[**Getter**](#getter)  
-	[**Interface names**](#interface-names)  
+&ensp;&ensp;[**Package names**](#package-names)  
+&ensp;&ensp;[**Getter**](#getter)  
+&ensp;&ensp;[**Interface names**](#interface-names)  
 [**Control Structures**](#control-structures)  
-	[**If**](#if)  
-	[**For**](#for)  
-	[**Switch**](#switch)  
-	[**Type Switch**](#type-switch)  
-[**Function**](#function)
-	[**Named result parameters**](#named-result-parameters)
-	[**Defer**](#defer)
-[**Data**](#data)
-	[**Allocation with New**](#allocation-with-new)
-	[**Constructor and Composite literal**](#constructor-and-composite-literal)
-	[**Allocation with Make**](#allocation-with-make)
-	[**Array**](#array)
-... [**Slices**](#slices)
-... [**Two Dimensional Slice**](#two-dimensional-slice)
-... [**Map**](#map)
-... [**Append**](#append)
-[**Initialization**](#initialization)
-... [**Constants**](#constants)
-... [**Variable**](#variable)
-... [**The init function**](#the-init-function)
-[**Method**](#method)
-... [**Pointers vs. Values**](#pointers-vs.-values)
-[**Interface and other types**](#interface-and-other-types)
-... [**Interface**](#interface)
-... [**Conversions**](#conversions)
-... [**Interface conversions and type assertions**](#interface-conversions-and-type-assertions)
-... [**Generality**](#generality)
-... [**Interfaces and methods**](#interfaces-and-methods)
-[**The blank identifier**](#the-blank-identifier)
-... [**The blank identifier in multiple assignment**](#the-blank-identifier-in-multiple-assignment)
-... [**Unused imports and variables**](#unused-imports-and-variables)
-... [**Import for side effect**](#import-for-side-effect)
-... [**Interface checks**](#interface-checks)
-[**Embedding**](#embedding)
-[**Errors**](#errors)
-... [**Panic**](#panic)
-... [**Recover**](#recover)
+&ensp;&ensp;[**If**](#if)  
+&ensp;&ensp;[**For**](#for)  
+&ensp;&ensp;[**Switch**](#switch)  
+&ensp;&ensp;[**Type Switch**](#type-switch)  
+[**Function**](#function)  
+&ensp;&ensp;[**Named result parameters**](#named-result-parameters)  
+&ensp;&ensp;[**Defer**](#defer)  
+[**Data**](#data)  
+&ensp;&ensp;[**Allocation with New**](#allocation-with-new)  
+&ensp;&ensp;[**Constructor and Composite literal**](#constructor-and-composite-literal)  
+&ensp;&ensp;[**Allocation with Make**](#allocation-with-make)  
+&ensp;&ensp;[**Array**](#array)  
+&ensp;&ensp;[**Slices**](#slices)  
+&ensp;&ensp;[**Two Dimensional Slice**](#two-dimensional-slice)  
+&ensp;&ensp;[**Map**](#map)  
+&ensp;&ensp;[**Append**](#append)  
+[**Initialization**](#initialization)  
+&ensp;&ensp;[**Constants**](#constants)  
+&ensp;&ensp;[**Variable**](#variable)  
+&ensp;&ensp;[**The init function**](#the-init-function)  
+[**Method**](#method)  
+&ensp;&ensp;[**Pointers vs. Values**](#pointers-vs.-values)  
+[**Interface and other types**](#interface-and-other-types)  
+&ensp;&ensp;[**Interface**](#interface)  
+&ensp;&ensp;[**Conversions**](#conversions)  
+&ensp;&ensp;[**Interface conversions and type assertions**](#interface-conversions-and-type-assertions)  
+&ensp;&ensp;[**Generality**](#generality)  
+&ensp;&ensp;[**Interfaces and methods**](#interfaces-and-methods)  
+[**The blank identifier**](#the-blank-identifier)  
+&ensp;&ensp;[**The blank identifier in multiple assignment**](#the-blank-identifier-in-multiple-assignment)  
+&ensp;&ensp;[**Unused imports and variables**](#unused-imports-and-variables)  
+&ensp;&ensp;[**Import for side effect**](#import-for-side-effect)  
+&ensp;&ensp;[**Interface checks**](#interface-checks)  
+[**Embedding**](#embedding)  
+[**Errors**](#errors)  
+&ensp;&ensp;[**Panic**](#panic)  
+&ensp;&ensp;[**Recover**](#recover)  
+[**Concurrency**](#concurrency)
+&ensp;&ensp;[**Share by communicating**](#share-by-communicating)
+&ensp;&ensp;[**Goroutines**](#goroutines)
+&ensp;&ensp;[**Channels**](#channels)
+&ensp;&ensp;[**Channels of channels**](#channels-of-channels)
+&ensp;&ensp;[**Parallelization**](#parallelization)
+&ensp;&ensp;[**A leaky buffer**](#a-leaky-buffer)
+[**A web server**](#a-web-server)
 
 ## Naming
 ---
@@ -974,4 +982,28 @@ for try := 0; try < 2; try++ {
 ---
 
 #### Recover
+---
+
+## Concurrency
+---
+
+#### Share by communicating
+---
+
+#### Goroutines
+---
+
+#### Channels
+---
+
+#### Channels of channels
+---
+
+#### Parallelization
+---
+
+#### A leaky buffer
+---
+
+## A web server
 ---
