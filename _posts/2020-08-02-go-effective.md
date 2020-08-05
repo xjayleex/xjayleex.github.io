@@ -5,6 +5,7 @@ title: Effective Go (번역 및 요약 정리)
 date: 2020-08-02
 category: "Golang"
 tags: [Golang, Go Effective]
+update: 2020-08-05
 author: Jaehyun Lee
 ---
 
@@ -12,7 +13,7 @@ author: Jaehyun Lee
 > ### Contents  
 [**Naming**](#naming)  
 &ensp;&ensp;&ensp;[**Package names**](#package-names)  
-&ensp;&ensp;&ensp;&ensp;[**Getter**](#getter)  
+&ensp;&ensp;&ensp;;[**Getter**](#getter)  
 &ensp;&ensp;&ensp;[**Interface names**](#interface-names)  
 [**Control Structures**](#control-structures)  
 &ensp;&ensp;&ensp;[**If**](#if)  
