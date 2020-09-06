@@ -752,7 +752,7 @@ func ArgServer(w http.ResponseWriter, req *http.Request) {
 누군가가 /args를 방문하면 HTTP 서버는 HandlerFunc 타입의 ServeHTTP 메소드를 call하고, 리시버로 ArgServer를 사용한다. 이 후 HandlerFunc.ServerHTTP안에서 f(w,req)를 call한다.
 
 ## **The blank identifier**
-
+  
 `for range`, `map` 설명에서 보았듯, 공백 식별자는 그 어떠한 타입에 대해서나 할당될 수 있다. 
 ---
 #### The blank identifier in multiple assignment
