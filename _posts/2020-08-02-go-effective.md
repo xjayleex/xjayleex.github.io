@@ -753,7 +753,7 @@ func ArgServer(w http.ResponseWriter, req *http.Request) {
 
 ## **The blank identifier**
   
-`for range`, `map` 설명에서 보았듯, 공백 식별자는 그 어떠한 타입에 대해서나 할당될 수 있다. 
+&ensp;`for range`, `map` 설명에서 보았듯, 공백 식별자는 그 어떠한 타입에 대해서나 할당될 수 있다. 
 ---
 #### The blank identifier in multiple assignment
 ---
