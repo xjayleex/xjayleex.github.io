@@ -63,7 +63,7 @@ author: Jaehyun Lee
 [**A web server**](#a-web-server)  
 
 ## **Naming**
----
+
 #### Package names
 ---
 - 패키지명은 소문자, 한 단어로만 네이밍(언더바(-), 대소문자 혼용 필요 없도록)  
@@ -88,8 +88,8 @@ if owner != user {
 ---
 - one-method 인터페이스는 메서드 이름에 `-er` 접미사 붙임. ex) Reader, Writer, Formatter, CloseNotifier
 
-## Control Structures
----
+## **Control Structures**
+
 #### If
 ---
 - if와 switch가 `초기화 구문` 허용
@@ -207,8 +207,8 @@ case *int:
 }
 {% endhighlight %}
 
-## Function
----
+## **Function**
+
 #### Named result parameters
 ---
 이름 있는 결과 인자값을 통해 코드를 짧게, 명확하게 할 수 있다. 또, 문서화에 도움된다.
@@ -261,8 +261,8 @@ for i := 0; i < 5; i++ {
 {% endhighlight %}
 연기된 함수는 LIFO 순서에 의해 실행되며, 4 3 2 1 0 을 출력한다.
 
-## Data
----
+## **Data**
+
 Go에서 메모리를 할당하기 위한 방식으로는 built-in 함수 `new`와 `make`가 있다.
 
 #### Allocation with New
@@ -469,8 +469,8 @@ fmt.Println(x)
 
 ...이 없으면 컴파일 되지 않는다. y는 int 타입이 아니기 때문이다.
 
-## Initialization
----
+## **Initialization**
+
 #### Constants
 ---
 Go에서는 열거형(enum) 상수를 iota라는 enumerator를 이용해 생성한다. iota는 암묵적으로 반복될 수 있어, 복잡한 값들로 구성된 집합 생성을 쉽게 한다.
@@ -549,8 +549,8 @@ func init() {
 }
 {% endhighlight %}
 
-## Method
----
+## **Method**
+
 #### Pointers vs. Values
 ---
 [**ByteSize**](#constants)에서 볼 수 있듯, 메서드는 모든 타입에 대해 정의할 수 있다. 
@@ -590,8 +590,8 @@ Value만 사용하는 메서드는 포인터와 Value에서 모두 사용할 수
 포인터 메서드의 경우에는 포인터에서만 사용 가능하다.
 Go에서는 Value에서 포인터 메서드를 실행하는 것을 허용하지 않는다. 주소를 얻을 수 있는 Value의 경우, 포인터 메소드를 Value에 대해 실행할 경우 자동으로 주소 연산을 넣어준다. 위의 예시에서 `b`는 주소로 접근 할 수 있으므로 `b.Write`만으로 `Write` 메서드를 호출할 수 있다. 컴파일러가 이를 `(&b).Write`로 바꿔줄 것이다.
 
-## Interface and other types
----
+## **Interface and other types**
+
 #### Interface
 ---
 Go 인터페이스를 이용해 객체의 행위를 지정해줄 수 있다. 어떠한 객체가 정해진 행동을 할 수 있다면, 호환되는 타입으로 사용 할 수 있다는 의미이다(이게 진정한 인터페이스의 의미인듯?).
@@ -751,8 +751,8 @@ func ArgServer(w http.ResponseWriter, req *http.Request) {
 {% endhighlight %}
 누군가가 /args를 방문하면 HTTP 서버는 HandlerFunc 타입의 ServeHTTP 메소드를 call하고, 리시버로 ArgServer를 사용한다. 이 후 HandlerFunc.ServerHTTP안에서 f(w,req)를 call한다.
 
-## The blank identifier
----
+## **The blank identifier**
+
 `for range`, `map` 설명에서 보았듯, 공백 식별자는 그 어떠한 타입에 대해서나 할당될 수 있다. 
 ---
 #### The blank identifier in multiple assignment
@@ -862,8 +862,8 @@ func (r *RawMessage) MarshalJSON()([]byte,error) {
 {% endhighlight %}
 위에서 공백 식별자는 선언 자체가 변수를 만드는 것이 아니라 오로지 타입 검사를 위해서만 선언되었음을 알려주고 있다.
 
-## Embedding
----
+## **Embedding**
+
 Go는 subclassing을 제공하지 않으나, struct나 인터페이스에 Type Embedding을 통해 구현체의 일부를 빌릴 수 있다. `io.Reader`와 `io.Writer` 인터페이스로 인터페이스 임베딩을 설명할 수 있다.
 ```go
 type Reader interface {
@@ -985,8 +985,8 @@ for try := 0; try < 2; try++ {
 #### Recover
 ---
 
-## Concurrency
----
+## **Concurrency**
+
 
 #### Share by communicating
 ---
