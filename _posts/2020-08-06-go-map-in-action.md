@@ -9,8 +9,13 @@ update: 2020-08-06
 author: Jaehyun Lee
 ---
 > ### Contents
-[**Introduction**](#introduction)
-[**Declaration and Initialization**](#declaration-and-initialization**)
+[**Introduction**](#introduction)  
+[**Declaration and Initialization**](#declaration-and-initialization**)  
+[**Working with maps**](#working-with-maps)  
+[**Exploiting zero values**](#exploiting-zero-values**)  
+[**Key types**](#key-types)  
+[**Concurrency**](#concurrency)  
+[**Iteration order**](#iteration order)
 
 #### Intoduction
 ---
@@ -88,7 +93,7 @@ m := map[string]int {
 m = map[string]int{}
 ```
 
-#### Exploting zero values
+#### Exploiting zero values
 ---
 맵에 해당 key가 없을 때 zero value를 리턴하도록 하는 매커니즘은 맵 이용을 편리하도록 해준다.
 
