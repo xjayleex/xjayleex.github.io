@@ -8,6 +8,9 @@ tags: [Golang, Go Maps]
 update: 2020-08-06
 author: Jaehyun Lee
 ---
+> ### Contents
+[**Introduction**](#introduction)
+[**Declaration and Initialization**](#declaration-and-initialization**)
 
 #### Intoduction
 ---
@@ -169,4 +172,44 @@ type Key struct{
 }
 
 hits[Key{"/doc/", "us"} += 1
+```
+
+#### Concurrency
+---
+아쉽게도 Go map은 여러 고루틴이 동시에 접근할 떄 안전하게 대처해줄 장치가 마련되어 있지 않다. 동시에 맵에 읽고 쓸 때, 어떤 일이 발생할지 알 수 없다. 여러 맵에서 동시에 하나의 맵에 읽고 쓰기 위해서는 `sync.RWMutex`와 map 변수를 포함하는 익명 구조체 객체를 선언해야 한다.
+```go
+var counter = struct{
+	sync.RWMutex
+	m map[string]int
+}{m : make(map[string]int)}
+```
+map을 읽기 위해, counter로 부터 Read Lock을 얻는다.
+```go
+counter.RLock()
+n := counter.m["some_key"]
+counter.RUnlock()
+fmt.Println("some_key:", n)
+```
+map에 데이터를 쓰기 위해서는 counter로 부터 Write Lock을 얻어 쓰면 된다.
+```go
+counter.Lock()
+counter.m["some_key"]++
+counter.Unlock()
+```
+
+#### Iteration order
+---
+Go map에 대해서 iterate 할 때, 반복 순서는 정해져 있지 않다(C++의 Map은 Red-black tree로 구현되어 있어 정렬되어 있음). 때문에 매번 Iterate가 동일하다고 보장할 수 없다. 안정적인 반복 순서가 필요한 경우에는 해당 순서를 정하는 별도의 자료구조가 필요하다.
+```go
+import "sort"
+
+var m map[int]string
+var keys []int
+for k := range m {
+	keys = append(keys, k)
+}
+sort.Ints(keys)
+for _, k := range keys {
+	fmt.Println("Key:", k , "Value:", m[k])
+}
 ```
