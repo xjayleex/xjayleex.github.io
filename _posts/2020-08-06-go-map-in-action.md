@@ -15,7 +15,7 @@ author: Jaehyun Lee
 [**Exploiting zero values**](#exploiting-zero-values**)  
 [**Key types**](#key-types)  
 [**Concurrency**](#concurrency)  
-[**Iteration order**](#iteration order)
+[**Iteration order**](#iteration-order)
 
 #### Intoduction
 ---
@@ -202,7 +202,7 @@ counter.m["some_key"]++
 counter.Unlock()
 ```
 
-#### Iteration order
+#### Iteration order {#iteration-order}
 ---
 Go map에 대해서 iterate 할 때, 반복 순서는 정해져 있지 않다(C++의 Map은 Red-black tree로 구현되어 있어 정렬되어 있음). 때문에 매번 Iterate가 동일하다고 보장할 수 없다. 안정적인 반복 순서가 필요한 경우에는 해당 순서를 정하는 별도의 자료구조가 필요하다.
 ```go
