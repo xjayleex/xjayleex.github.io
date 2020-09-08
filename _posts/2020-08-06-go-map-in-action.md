@@ -10,9 +10,9 @@ author: Jaehyun Lee
 ---
 > ### Contents
 [**Introduction**](#introduction)  
-[**Declaration and Initialization**](#declaration-and-initialization**)  
+[**Declaration and Initialization**](#declaration-and-initialization)  
 [**Working with maps**](#working-with-maps)  
-[**Exploiting zero values**](#exploiting-zero-values**)  
+[**Exploiting zero values**](#exploiting-zero-values)  
 [**Key types**](#key-types)  
 [**Concurrency**](#concurrency)  
 [**Iteration order**](#iteration-order)
