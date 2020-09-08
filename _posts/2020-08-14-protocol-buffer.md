@@ -46,12 +46,12 @@ JSON 포맷으로  다음과 같은 데이터가 있다고 하자.
 다음은 위의 JSON 객체를 protobuf 스키마로 나타낸 것이다.
 ```protobuf
 message Person {
-	required string user_name			 = 1;
+	required string user_name		= 1;
 	optional int64	favourite_number	 = 2;
-	repeated string	interests			 = 3;
+	repeated string	interests		= 3;
 }
 ```
-이를 바이너리로 인코딩하면 다음과 같이 33 바이트 공간만을 차지하게 된다.
+메시지 구성은 뒤에서 자세 살펴보기로 하고, 이를 바이너리로 인코딩하면 다음과 같이 33 바이트 공간만을 차지하게 된다.
 
 ![Image](/assets/images/protobuf.png){:style="     width: 80%; margin: 0 auto; display: block;"}
   [(*Fig. from 'Schema evolution in Avro, Protocol Buffers and Thrift'*)](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)
