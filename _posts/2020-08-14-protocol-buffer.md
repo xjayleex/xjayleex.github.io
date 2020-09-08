@@ -48,6 +48,7 @@ message Person {
 이를 바이너리로 인코딩하면 다음과 같이 33 바이트 공간만을 차지하게 된다.
 
 ![Image](/assets/images/protobuf.png){:style="     width: 80%; margin: 0 auto; display: block;"}
-[(*Schema evolution in Avro, Protocol Buffers and Thrift*)](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)
+</center>[(*Fig. from 'Schema evolution in Avro, Protocol Buffers and Thrift'*)](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)</center>
+
 위의 그림을 이해해보면 Protocol Buffer의 압축성을 직관적으로 파악할 수 있다. 바이너리화된 데이터의 맨 앞 1바이트는 메타데이터로 두 가지 정보를 가지고 있는데, 앞의 5bit는 `field tag`를 나타내며, 뒤의 3bit는 `field type`을 나타낸다.
 그 뒤에 있는 두 번째 바이트는 뒤에서부터 이어질 데이터의 길이를 저장해서 나타낸다.
