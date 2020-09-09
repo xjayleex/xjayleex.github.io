@@ -20,15 +20,15 @@ Protocol Buffer를 이해하려면 우선 Serialization이 무엇인지 알아�
 > Serialization
 "Serialization is the process of translating data structures or object state into a format that can be stored (for example, in a file or memory buffer) or transmitted (for example, across a network connection link) and reconstructed later (possibly in a different computer environment)"
 
-파일로 저장하거나 네트워크를 통해 전송할 데이터가 있다고 해보자. 대상 데이터를 다루면서, 여러 개선 단계가 있을 것이다.
+파일로 저장하거나 네트워크를 통해 전송할 데이터가 있다고 해보자. 대상 데이터를 다루면서, 다음과 같이 여러 개선 단계를 거칠 것이다.
 1. 처음으로 생각할 수 있는건 프로그래밍 언어의 built-in 직렬화 라이브러리! 자바에는 `serialization`, 파이썬에는 `pickle` 등이 있다.
-2. 그러다가 이러한 방식이 그 프로그래밍 언어에서 국한되어 더 이상 확장되지 않는다는 것을 느끼게되면 `JSON`이나 `XML`과 같이 언어에 구애받지 않는 형식으로 바꾸게 될 것이다.
+2. 그러다가 이러한 방식이 그 프로그래밍 언어에서 국한되어, 다른 플랫폼과 확장선상에서 더 이상 확장되지 않는다는 것을 느끼게되면 `JSON`이나 `XML`과 같이 언어에 구애받지 않는 포맷으로 바꾸게 될 것이다.
 3. JSON의  장황함, 느린 파싱 성능, 정수와 플로팅 포인트를 구분하지 않는다는 점 등등에 짜증이 날 떄 쯤이면 바이너리 형태의 프로토콜을 고민할 수 있다.
 4. 하지만, 바이너리 JSON의 형태도 그렇게 간결하진 않아 여기에도 불만족스러울 수 있다. 왜냐면 여기에서도 필드 이름을 계속해서 저장하니까...
-5. 이런 고민 단계를 거치다가 보면 `Protocol Buffer`나 Avro, Thrift 등의 도입을 고려하게 된다.
+5. 이런 고민 단계를 거치다가 보면 **Protocol Buffer**나 Avro, Thrift 등의 도입을 고려하게 된다.
 
 
-`Protocol Buffer`(이하 protobuf)는 네트워크나 파일로 저장 될 수 있는 데이터를 직렬화하는 방법이다. 기존의 JSON과 XML도 데이터 직렬화에 사용되는 프로토콜이지만, 여러 다른 플랫폼 기반 중심에서 데이터를 전송하는 시나리오에서는 완전히 최적화되어 있지는 않다. 물론 Human-readable 하다는 장점이 있기는하지만, **Space-intensive**하다(이유는 바로 아래 절에서 확인 가능하다). 대규모 트래픽 처리에는 적합하지 않은 것이다. 이게 바로 Protocol Buffer가 만들어진 이유다. 
+`Protocol Buffer`(이하 protobuf)는 네트워크나 파일로 저장 될 수 있는 데이터를 직렬화하는 방법이다. 기존의 JSON과 XML도 데이터 직렬화에 사용되는 프로토콜이지만, 여러 다른 플랫폼 기반 중심에서 데이터를 전송하는 시나리오에서는 완전히 최적화되어 있지는 않다. 물론 Human-readable 하다는 장점이 있기는하지만, *Space-intensive*하다(이유는 바로 아래 절에서 확인 가능하다). 대규모 트래픽 처리에는 적합하지 않은 것이다. 이게 바로 Protocol Buffer가 만들어진 이유다. 
 Protocol Buffer는 데이터 형식에서 수행하는 많은 일들을 제거하고 가능한 빨리 데이터를 직렬화하고 역직렬화하는 기능에만 집중하도록 함으로써 JSON 및 XML 보다 더 빠르게 동작하도록 최적화되어 있다. 또한 전송 데이터를 가능한 작게 만들어서 네트워크 대역폭을 줄인다.
 Protocol Buffer에서 직렬화할 데이터 spec은 `.proto` 파일에 기록하는데, 파일에는 `message`를 구성한 다음, 대상 프로그래밍 언어로 코드를 생성하기 위해 `protoc`으로  컴파일한다.
 
