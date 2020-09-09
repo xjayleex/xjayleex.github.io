@@ -14,6 +14,8 @@ author: Jaehyun Lee
 [**Introduction**](#introduction)  
 [**Why Protocol Buffer**](#why-protocol-buffer)  
 
+### Protocol Buffer Basics
+
 #### Intoduction
 ---
 Protocol Buffer를 이해하려면 우선 Serialization이 무엇인지 알아야 한다. Wikipedia의 설명을 인용해보면,
@@ -81,6 +83,35 @@ protobuf2에서는 Java, Python, Objective-C, C++ 만을 지원하지만, protob
 ---
 JSON 및 XML에서와 같이, hierarchical한 데이터 구조를  나타내기 위한 모든 데이터 타입을 사용할 수 있다. 다음은 `.proto` 파일 내에서의 protobuf 필드 타입들이며, 생성하고자 하는 대상 언어에서 각각 상응하는 데이터 타입을 확인하면 된다.
 ![Image](/assets/images/typemapping.png){:style="width: 90%; margin: 0 auto; display: block;"}
+
+### **protobuf3 Language Guide**
+
+Protocol Buffer를 사용해 각 언어 별 generated code를 생성하기 위해서는 .proto 파일을 작성해야한다. 즉, 문법을 알아야 한다. 간단한 메세지 타입부터 알아보도록 하자. 다음부터의 설명은 [*'Google Protocol Buffer' 공식 문서*](https://developers.google.com/protocol-buffers/docs/proto3)에 나와있는 예제 설명이다.
+
+#### Defining A Message Type
+---
+검색 Request 마다 쿼리 문자열, 특정 결과 페이지 그리고 페이지 당 여러 검색 결과가 있는 검색 Request 메시지를 정의해보자.
+```protobuf
+syntax = "proto3";
+
+message SearchRequest {
+	// type field_name = field_number;
+	string query = 1;
+	int32 page_number = 2;
+	int32 result_per_age = 3;
+}
+```
+- 첫 번째 라인은 proto3 문법을 사용하고 있음을 나타낸다. 만약 설정하지 않고 디폴트 값을 사용했을 때에는 proto2 문법을 사용한다. 이 구문은 파일의 첫 번째 행에만 작성한다.
+- 친숙하게 느껴지는 부분이다. 메시지에 포함하는 각 필드는 Type, Field Name, Field Number(tag)로 나타낸다. 
+
+#### Assigning Field Numbers
+---
+메시지 정의에서 각 필드에는 고유 번호가 있다. 이 필드 번호는 메시지의 바이너리 포맷에서 필드 자체의 식별자로 사용되며, 기존에 사용되고 있던 메시지를 수정했을 때 절대로 변경되어서는 안된다.
+필드 번호는 번호에 따라서 사용하는 공간이 다른데,
+1~15 범위의 필드 번호는 필드 번호 및 필드 타입을 포함해 인코딩 시 1Byte 공간을 사용하고,
+16-2047 범위의 필드 번호는 2바이트를 사용한다. 따라서 자주 사용하는 메시지 요소에 대해서는 1에서 15까지의 숫자를 사용해 최적화한다.
+지정할 수 있는 필드 번호의 범위는 1 ~ $2^29$-1이다.
+
 
 #### References
 ---
