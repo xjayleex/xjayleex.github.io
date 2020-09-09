@@ -109,8 +109,67 @@ message SearchRequest {
 메시지 정의에서 각 필드에는 고유 번호가 있다. 이 필드 번호는 메시지의 바이너리 포맷에서 필드 자체의 식별자로 사용되며, 기존에 사용되고 있던 메시지를 수정했을 때 절대로 변경되어서는 안된다.
 필드 번호는 번호에 따라서 사용하는 공간이 다른데,
 1~15 범위의 필드 번호는 필드 번호 및 필드 타입을 포함해 인코딩 시 1Byte 공간을 사용하고,
-16-2047 범위의 필드 번호는 2바이트를 사용한다. 따라서 자주 사용하는 메시지 요소에 대해서는 1에서 15까지의 숫자를 사용해 최적화한다.
-지정할 수 있는 필드 번호의 범위는 1 ~ $$2^29$$-1이다.
+16-2047 범위의 필드 번호는 2바이트를 사용한다. 따라서 자주 사용하는 메시지 요소에 대해서는 1에서 15까지의 숫자를 사용해 최적화한다. 지정할 수 있는 번호 범위는 더 광범위하지만 최근 MSA 트렌드를 볼 때, 그 정도까지 필요할까 싶다.
+
+#### Adding More Message Types
+---
+하나의 `.proto`파일에 여러 메시지 타입을 정의할 수 있다. 다음과 같이 서로 관련된 메시지 타입들이 있을 때, 이러한 방법을 사용한다. 
+```protobuf
+message SearchRequest {
+	string query = 1;
+	int32 page_number = 2;
+	int32 result_per_age = 3;
+}
+
+message SearchResponse{
+	...
+}
+```
+
+#### Reserved Fields
+---
+기존에 사용하고 있던 레거시 proto 파일이 있는데 기존 메시지에서 사용하고 있던 필드 중, 어떤 부분을 제거해야하는 상황이라고 해보자. 이 때 필드를 완전히 제거하거나 주석 처리하면 안된다. 이렇게 되면 추후에 이 proto 파일을 관리하는 프로그래머는 다른 필드를 추가하거나 업데이트 할 때 기존에 넘버링되어 있던 필드 번호를 재사용할 수 있게된다. 이 경우 동일한 proto 파일의 이전 버전을 로드 하게 될 경우 심각한 문제가 발생할 수 있다. 이러한 문제를 방지하기 위해 `reserved` 키워드를 사용해, 제거된 필드의 필드 번호를 예약 지정할 수 있다. protoc 컴파일러는 향후 프로그래머가 `reserved` 식별자를 사용하려고 하면 에러를 발생시킬 것이다. 단, 한 `reserved` 구문에서 필드 이름과 필드 번호를 혼용해서 쓸 수는 없다.
+```protobuf
+message Msg{
+	reserved 2, 15, 9 to 11;
+	reserved "foo", "bar";
+```
+#### Code generated from proto file
+---
+`.proto` 파일을 컴파일 할 때, `protoc` 컴파일러는 getter, setter 설정 및, output 스트림으로의 메시지 직렬화, input stream으로부터의 메시지 파싱을 포함해, 파일에서 기술한 메시지 유형으로 작업하는데에 필요한 코드들을 선택한 언어로 생성한다. 대표적인 언어에 대해서 각각 살펴보자면, 
+- go의 경우, 각 메시지 타입에 대한 go 타입을 가진 `.pb.go` 파일을,
+- C++의 경우 `.h` 및 `.cc` 파일을, 
+- Java의 경우 메시지 타입의 클래스 인스턴스를 생성하기 위한 Builder 클래스가 있는 `.java` 파일.
+
+#### Default Values
+---
+앞서 `.proto` 파일 내의 필드 타입과 대상 프로그래밍 언어(본문에서는 go)의 타입간 매핑에 대해서 언급했다.
+메시지를 파싱 할 때, 메시지에 `singular` 요소가 포함되어 있지 않으면, 파싱된 객체에 상응하는 필드가 필드 타입의 기본값으로 설정된다. 
+
+![Image](/assets/images/proto_default.png){:style="width : 90%; margin: 0 auto; display: block;"}
+
+#### Enumerations
+---
+Scalar 타입뿐만 아니라, 친숙한 enum 타입도 사용 할 수 있다. 메시지 유형을 정의 할 때, 미리 정의된 목록 중 하나만 포함하도록 할 수 있는 것이다. 예로써, SearchRequest 메시지에 각 요청에 대해 분류를 나타낼 `Kinds` 필드를 추가한다고 생각해보자. 검색 결과의 분류로는 아마도 `WEB`, `IMAGES`, `NEWS`, `PRODUCTS` 등이 있을 수 있다. 또한, 이는 바로 `enum` 열거형으로 나타낼 수 있다.
+```protobuf
+message SearchRequest {
+	string query = 1;
+	int32 page_number = 2;
+	int32 result_per_page = 3;
+	enum Kinds{
+		WEB = 0;
+		IMAGES = 1;
+		NEWS = 2;
+		PRODUCTS = 3;
+	}
+	Kinds kinds = 4;
+}
+```
+위에서 보는바와 같이 `Kinds`의 원소는 0부터 매핑된다. 모든 열거형의 정의는 0으로 첫번째 요소로 매핑되는 상수를 포함해야 한다. proto2에서는 열거형 값이 default로 0이여서 호환성을 위함이다.
+
+열거형 상수에 alais를 할 수도 있다. 이렇게 하기 위해서는 `allow_alias` 옵션이 `true`로 설정되어야 한다. 그렇지 않고 사용하게 되면 컴파일러는 alias를 찾지 못헀다는 에러 메세지를 출력한다.
+
+
 
 
 #### References
@@ -118,3 +177,4 @@ message SearchRequest {
 - [*'Schema evolution in Avro, Protocol Buffers and Thrift'*](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)  
 -[*'Understanding Protocol Buffers'*](https://medium.com/better-programming/understanding-protocol-buffers-43c5bced0d47)  
 
+
