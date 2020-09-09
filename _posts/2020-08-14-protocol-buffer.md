@@ -49,6 +49,7 @@ JSON 포맷으로  다음과 같은 데이터가 있다고 하자.
 위의 데이터는 공백을 제거했을 때, 82 바이트 공간을 차지한다. 이를 protobuf 스키마로 나타내면 어떤식이 될까?
 다음은 위의 JSON 객체를 protobuf 스키마로 나타낸 것이다.
 ```protobuf
+// protobuf2 syntax
 message Person {
 	required string user_name		= 1;
 	optional int64	favourite_number	= 2;
@@ -58,7 +59,7 @@ message Person {
 메시지 형식은 위에서 보는바와 같이 간단하다. 내 눈에는 go나 java의 interface를 보는 것 같기도 하다. 메시지 타입 내에는 field들이 있는데, 각 field는 field name, field type, field tag로 이루어져 있다. 더 자세한 문법은 뒤에서 알아보기로 하자. 
 위의 메시지를 바이너리로 인코딩하면 다음과 같이 33 바이트 공간만을 차지하게 된다.
 
-![Image](/assets/images/protobuf.png){:style="     width: 80%; margin: 0 auto; display: block;"}
+![Image](/assets/images/protobuf.png){:style="width: 80%; margin: 0 auto; display: block;"}
   [(*Fig. from 'Schema evolution in Avro, Protocol Buffers and Thrift'*)](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)
 
 위의 그림을 이해해보면 protobuf의 압축성을 직관적으로 파악할 수 있다. 바이너리화된 데이터의 맨 앞 1바이트는 메타데이터로 두 가지 정보를 가지고 있는데, 앞의 5bit는 `field tag`를 나타내며, 뒤의 3bit는 `field type`을 나타낸다.
@@ -71,4 +72,18 @@ message Person {
 - Language Independency
 - Faster serialization/deserialization
 
+#### Supported Languages
+---
+protobuf2에서는 Java, Python, Objective-C, C++ 만을 지원하지만, protobuf3에서는 거의 모든 메인스트림 언어에 대해서 코드를 생성해준다.
+> `Go`, `C++`, `Java`, `Python`, `Erlang`, `Ruby`, etc.  
+
+#### Scalar Value Types
+---
+JSON 및 XML에서와 같이, hierarchical한 데이터 구조를  나타내기 위한 모든 데이터 타입을 사용할 수 있다. 다음은 `.proto` 파일 내에서의 protobuf 필드 타입들이며, 생성하고자 하는 대상 언어에서 각각 상응하는 데이터 타입을 확인하면 된다.
+![Image](/assets/images/typemapping.png){:style="width: 90%; margin: 0 auto; display: block;"}
+
+#### References
+---
+- [*'Schema evolution in Avro, Protocol Buffers and Thrift'*](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)  
+-[*'Understanding Protocol Buffers'*](https://medium.com/better-programming/understanding-protocol-buffers-43c5bced0d47)  
 
