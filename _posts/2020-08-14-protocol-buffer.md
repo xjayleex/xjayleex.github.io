@@ -219,6 +219,80 @@ message Result {
 import "myproject/other_protos.proto";
 ```
 
+#### Nested Types
+---
+메시지 타입 내에서 다른 메시지 타입을 정의해서 사용할 수 있다.
+```protobuf
+message SearchResponse {
+	message Result {
+		string url = 1;
+		string title = 2;
+		repeated string snippets = 3;
+	}
+	repeated Result results = 1;
+}
+```
+이 메시지 유형을 외부에서 재사용하려면, `_Parent_._Type_`과 같은 문법으로 사용하면 된다.
+```protobuf
+message SomeOtherMessage{
+	SearchResponse.Result result = 1;
+}
+```
+다음과 같이 Nested 타입을 정의 할 수도 있다.
+```protobuf
+message Outer {
+	message MiddleAA {
+		message Inner {
+			int64 ival = 1;
+			bool booly = 2;
+		}
+	}
+	message MiddleBB {
+		message Ineer {
+			int32 ival = 1;
+			bool booly = 2;
+		}
+	}
+}
+```
+
+#### Unknown Fields
+---
+`Unknown` 필드는 파서가 인식하지 못하는 필드로, 올바른 형식으로 직렬화된 데이터다. 예로써, 기존의 바이너리가 새 바이너리 메시지에서 보낸 새 필드를 파싱할 때, 이러한 새로운 필드는 기존의 바이너리 메시지에서 알 수 없는 필드가 된다.
+
+원래 protobuf3에서 `Unknown` 필드를 버렸지만, 버전 3.5부터는 protobuf2와 동작을 일치하도록 하기 위해 `Unknown` 필드를 유지시킨다.
+
+#### Any
+---
+`Any` 메시지 타입은 `.proto` 정의없이 메시지를 임베디드 타입으로 사용할 수 있게 한다. `Any` 타입을 사용하기 위해서는, `google/protobuf/any.proto`를 임포트 해야 한다. 
+```protobuf
+import "google/protobuf/any.proto";
+
+message ErrorStatus {
+	string message = 1;
+	repeated google.protobuf.Any details =;
+}
+```
+타입의 url에 대한 default는 `type.googleapis.com/_packagename_._messagename_' 이다.
+각기 다른 언어별로 타입이 `Any` 타입을 압축하고 해제하는 헬퍼 라이브러리가 지원된다. 예를 들어 java에서는 `pack()`, `unpack` 메서드가 있고, C++에는 `PackFrom()` 및 `UnpackTo` 메서드가 있다.
+
+```cpp
+// Storing an arbitrary message type in Any.
+NetworkErrorDetails details = ...;
+ErrorStatus status;
+status.add_details()->PackFrom(details);
+
+// Reading an arbitrary message from Any.
+ErrorStatus status = ...;
+for (const Any& detail : status.details()) {
+  if (detail.Is<NetworkErrorDetails>()) {
+    NetworkErrorDetails network_error;
+    detail.UnpackTo(&network_error);
+    ... processing network_error ...
+  }
+}
+```
+
 #### References
 ---
 - [*'Schema evolution in Avro, Protocol Buffers and Thrift'*](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)  
