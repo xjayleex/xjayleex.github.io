@@ -165,16 +165,62 @@ message SearchRequest {
 	Kinds kinds = 4;
 }
 ```
-위에서 보는바와 같이 `Kinds`의 원소는 0부터 매핑된다. 모든 열거형의 정의는 0으로 첫번째 요소로 매핑되는 상수를 포함해야 한다. proto2에서는 열거형 값이 default로 0이여서 호환성을 위함이다.
+위에서 보는바와 같이 `Kinds`의 원소는 0부터 매핑된다. 모든 열거형의 정의는 0으로 첫번째 요소로 매핑되는 상수를 포함해야 한다. 그래야지 열거형에 대한 default 값으로 zero value를 사용할 수 있기 때문이다. 또, proto2에서는 열거형 값이 default로 0이여서 호환성을 위함이다.
 
-열거형 상수에 alais를 할 수도 있다. 이렇게 하기 위해서는 `allow_alias` 옵션이 `true`로 설정되어야 한다. 그렇지 않고 사용하게 되면 컴파일러는 alias를 찾지 못헀다는 에러 메세지를 출력한다.
+열거형 상수에 alias를 할 수도 있다. 이렇게 하기 위해서는 `allow_alias` 옵션이 `true`로 설정되어야 한다. 그렇지 않고 사용하게 되면 컴파일러는 alias를 찾지 못헀다는 에러 메세지를 출력한다.
 
+```protobuf
+message MyMessage1 {
+  enum EnumAllowingAlias {
+    option allow_alias = true;
+    UNKNOWN = 0;
+    STARTED = 1;
+    RUNNING = 1;
+  }
+}
+message MyMessage2 {
+  enum EnumNotAllowingAlias {
+    UNKNOWN = 0;
+    STARTED = 1;
+    // RUNNING = 1;  // Uncommenting this line will cause a compile error inside 
+	//Google and a warning message outside.
+  }
+}
+```
 
+Enumerator의 상수는 32bit 정수 범위 내에 있어야 한다.
+열거형 값은 `varint encoding`을 사용하므로 음수 값은 권장되지 않는다.
+열거형은 .proto 파일의 모든 메시지 정의에서 재사용 가능하다. 재사용하려면 `_MessageType_._EnumType_`과 같은 문법을 사용하면 된다.
+열거형을 사용하는 `.proto`에서 protoc을 실행하면 생성된 코드에는 java의 경우 `enum`, python의 경우 `EnumDescriptor`라는 클래스가 생성된다. 이는 정수로된 상수 기호 집합을 생성하기 위해 사용된다.
 
+역직렬화 과정에서는 인식되지 않은 열거형 값들이 표현되는 방식은 언어에 따라 다르다.
+
+#### Using Other Message Types
+---
+다른 메시지 타입을 필드 타입으로 임포트해서 사용 할 수 있다. 예로써, `SearchResponse` 메시지에 `Result`  메시지를 포함하고 싶은 상황을 가정해보자. 동일한 `.proto` 파일에 `Result` 메시지 타입을 정의한 다음 `SearchResponse`에 `Result` 타입 필드를 선언할 수 있다.
+
+```protobuf
+message SearchResponse {
+	repeated Result results = 1;
+}
+
+message Result {
+	string url = 1;
+	string title = 2;
+	repeated string snippets = 3;
+}
+```
+
+#### Importing Definitions
+---
+필드 타입으로 사용하는 메시지 타입이 다른 `.proto` 파일에 정의되어 있는 경우에는 그 정의를 `import` 해서 사용할 수 있다. 
+
+```protobuf
+import "myproject/other_protos.proto";
+```
 
 #### References
 ---
 - [*'Schema evolution in Avro, Protocol Buffers and Thrift'*](https://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html)  
--[*'Understanding Protocol Buffers'*](https://medium.com/better-programming/understanding-protocol-buffers-43c5bced0d47)  
+- [*'Understanding Protocol Buffers'*](https://medium.com/better-programming/understanding-protocol-buffers-43c5bced0d47)  
 
-
