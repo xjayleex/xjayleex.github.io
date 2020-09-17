@@ -12,12 +12,14 @@ $google-fonts: 'Source+Code+Pro', 'Source+Sans+Pro';
 //$base-font-family: "DejaVu Sans Mono", "Monospace", 'Source Code Pro';
 //$code-font-family: "DejaVu Sans Mono", "Monospace", 'Source Code Pro';
 $base-font-family: 'RIDIBatang', monospace;
-$code-font-family: 'RIDIBatang', monospace;
+$code-font-family: "DejaVu Sans Mono", "Monospace", 'Source Code Pro';
 
 
-$site-title-font: "DejaVu Sans Mono", 'Source Code Pro';
-$post-title-font: "DejaVu Sans Mono", 'Source Code Pro';
-$head-font: "DejaVu Sans Mono", 'Source Code Pro';               // post h2 and h4
+//$site-title-font: "DejaVu Sans Mono", 'Source Code Pro';
+//$post-title-font: "DejaVu Sans Mono", 'Source Code Pro';
+$post-title-font: 'RIDIBatang', monospace;
+//$head-font: "DejaVu Sans Mono", 'Source Code Pro';               // post h2 and h4
+$head-font: 'RIDIBatang', monospace;               // post h2 and h4
 $list-link-font: "DejaVu Sans Mono", 'Source Code Pro';          // home page
 
 $base-font-size:   1rem;
