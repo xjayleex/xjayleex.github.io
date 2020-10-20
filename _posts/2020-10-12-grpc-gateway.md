@@ -375,6 +375,7 @@ date: Tue, 20 Oct 2020 08:18:37 GMT
 
 {"message":"Enrolled successfully"}
 ```
+다시 `baseurl/v1/users/foo/foo@mail.co.kr`로 GET Request를 보내면 200 OK 응답을 받을 수 있다.
 
 Redis 서버를 끄고 요청을 날려보면, 
 ```bash
@@ -390,4 +391,6 @@ date: Tue, 20 Oct 2020 08:29:38 GMT
 ```
 예상대로 Internal Error 상태 코드를 받을 수 있다.
 
-
+#### Future works
+---
+gRPC Middleware 적용해보고자 한다. gRPC는 확실히 러닝 커브는 있는 것 같다...
