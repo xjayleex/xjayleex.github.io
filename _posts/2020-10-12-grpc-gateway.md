@@ -33,7 +33,7 @@ gRPC-gateway는 protobuf에 정의된 서비스를 이용해, RESTful API 요청
 ---
 아래 패키지들을 설치하고, 만약에 `$GOBIN`을 환경변수로 등록하지 않은 상태라면, `$GOPATH/bin`을 `$GOBIN` 환경변수로 설정해준다.
 
-```bash
+```shell
 $ go get "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
 $ go get "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
 $ go get "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
