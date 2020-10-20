@@ -12,7 +12,7 @@ author: Jaehyun Lee
 [**gRPC Gateway Introduction**](#grpc-gateway-Introduction)  
 [**Installation**](#installation)  
 [**User Database**](#user-database)  
-[**.proto**](#.proto)  
+[**proto**](#.proto)  
 [**Code Generation**](#code-generation)  
 [**gRPC Server**](#grpc-server)  
 [**gRPC Gateway**](#grpc-gateway)  
@@ -71,7 +71,7 @@ type UserStore interface {
 
 ```
 
-#### .proto
+#### proto
 ---
 enrollment.proto를 정의한다. 기존 gRPC만 고려했을 때, 유저 등록 서비스는 다음과 같이 정의 할 수 있다.
 ```protobuf
