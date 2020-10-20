@@ -3,8 +3,8 @@ layout: post
 comment: false
 title: gRPC-gateway
 date: 2020-10-12
-category: "Golang"
-tags: [gRPC-gateway]
+category: "back-end"
+tags: [gRPC-gateway,gRPC,http2]
 update: 2020-10-12
 author: Jaehyun Lee
 ---
